@@ -57,11 +57,11 @@ function show_all_edditable_tabs(){
     $tabs = $wpdb->get_row("SELECT * FROM wp_editable_help_tabs");
 
     foreach ($tabs as  $value){
-        print_r($tabs);
+//        print_r($tabs);
         $screen->add_help_tab( array(
-            'id'       => $value[0],
-            'title'    => __($value[1]),
-            'content'  => $value[2]
+            'id'       => 'test',
+            'title'    => __('test'),
+            'content'  => 'test'
         ));
     }
     };
