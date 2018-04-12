@@ -17,13 +17,17 @@ function main_identification_superadmin() {
         //require_once(ABSPATH . 'wp-includes/pluggable.php');
         require __DIR__.'/functions.php';
         require __DIR__.'/uc-editable-hm-modal.php';
+        require __DIR__.'/uc-editable-hm-modal-exist.php';
 
         add_action('admin_enqueue_scripts', 'uc_editable_hm_scripts');
 
         add_thickbox();
 
         add_action( 'admin_head', 'new_tabs_creating_window');
+        add_action( 'admin_head', 'exist_tabs_editing_window');
         add_action( 'wp_ajax_add_help_tabs_to_db', 'add_help_tabs_to_db' );
+        add_action( 'wp_ajax_editing_existed_help_tabs_from_db', 'editing_existed_help_tabs_from_db' );
+
 
 
     }

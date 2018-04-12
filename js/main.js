@@ -3,7 +3,7 @@ jQuery(document).ready(function($) {
 
 // ==================      Add a button "+ Create New Tub" that require info from  to the <ul>    =================================
 	// console.log("it works");
-	$('.contextual-help-tabs').append('<a href="/?TB_inline&inlineId=add-new-tab&width=600&height=550" class="thickbox">+ Create New Tub</a>');
+	$('.contextual-help-tabs').append('<a href="/?TB_inline&width=600&height=550&inlineId=add-new-tab" class="thickbox">+ Create New Tub</a>');
 	// $(".contextual-help-tabs-wrap").text('');
 // ==================      Add a button "+ Create New Tub"  to the <ul>    =================================
 

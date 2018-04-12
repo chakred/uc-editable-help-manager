@@ -9,7 +9,7 @@ function uc_editable_hm_scripts(){
 };
 
 
-
+//=======================Проверяем есть ли таблица в БД, если нет , то создаем ее=============================
 global $wpdb;
 $table_name = $wpdb->prefix.'editable_help_tabs';
 
@@ -20,6 +20,7 @@ if($wpdb->get_var("SHOW TABLES LIKE '$table_name'") != $table_name){
             `text_tab` text NOT NULL,
             `text_sidebar` text,
             `tab_status` varchar(20) NOT NULL,
+            `screen_id` varchar(40) NOT NULL,
             UNIQUE KEY id  (id_tab)
         ) ;";
     require_once(ABSPATH . 'wp-admin/includes/upgrade.php');
@@ -29,41 +30,60 @@ if($wpdb->get_var("SHOW TABLES LIKE '$table_name'") != $table_name){
 
 };
 
-//================Прверяем есть ли таблица в БД, если нет , то создаем ее==================================
+//================ Вносим данные в таблицу ==================================
 function add_help_tabs_to_db(){
 
         global $wpdb;
         $title_tab = $_POST['title_tab'];
         $text_tab = $_POST['content_tab'];
         $text_sidebar = $_POST['content_tab'];
+        $text_sidebar = $_POST['content_tab'];
         $status_tab = 'trash';
-
-
+//        $screen_id = $screen->id;
+//        echo get_current_screen()->id;
 
     $wpdb = $wpdb->insert( wp_editable_help_tabs, array( 'title_tab' =>  $title_tab, 'text_tab' => $text_tab, 'text_sidebar' => '',  'tab_status' => $status_tab) );
 
-
 };
-//=======================Прверяем есть ли таблица в БД, если нет , то создаем ее=============================
+//======================= Вносим данные в таблицу =============================
+
+
+
+//======================= меняем данные в таблице по выбраному табу =============================
+
+
+
+//======================= меняем данные в таблице по выбраному табу=============================
+
+
+
+
 
 
 //======================= Выводим таб с БД ==================================
 
 function show_all_edditable_tabs(){
     $screen = get_current_screen();
-     $screen->remove_help_tabs();
+
+    $screen->remove_help_tabs();
+    $screen_id = $screen->id;
 
     global $wpdb;
-    $tabs = $wpdb->get_row("SELECT * FROM wp_editable_help_tabs");
+    $tabs = $wpdb->get_results("SELECT * FROM wp_editable_help_tabs");
+    $help_buttons = '<br><hr><div class="tab-help-buttons">
+					<a href ="/?TB_inline&inlineId=edit-existed-tab&width=600&height=550" class="thickbox button" class="edit-tub">Edit</a>
+				</div>';
 
-    foreach ($tabs as  $value){
-//        print_r($tabs);
-        $screen->add_help_tab( array(
-            'id'       => 'test',
-            'title'    => __('test'),
-            'content'  => 'test'
+    foreach ($tabs as $value) {
+        $screen->add_help_tab(array(
+            'id' => $value->id_tab,
+            'title' => $value->title_tab,
+            'content' => $value->text_tab.$help_buttons
         ));
+
     }
+
+
     };
 add_action('admin_head', 'show_all_edditable_tabs');
 

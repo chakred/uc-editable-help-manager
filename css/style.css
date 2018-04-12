@@ -95,7 +95,12 @@
     height: 47px;
     background: #f5f5f5;
     top: 0;
-
+}
+.help-tab-content{
+	margin-top: 15px;
+}
+.tab-help-buttons{
+	float:right;
 }
 .hm-window .control-buttons{
 	max-width: 150px;
@@ -104,7 +109,7 @@
 .hm-window .control-buttons input{
 	margin-left: 10px;
 }
-.hm-window #form-for-tab > input[type='text']{
+.hm-window #form-for-tab > input[type='text'], .hm-window #form-for-tab-exist > input[type='text']{
 	width:100%;
 	padding: 7px;
 	box-sizing: border-box;

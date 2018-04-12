@@ -12,7 +12,7 @@ function new_tabs_creating_window(){
 		<div class="hm-tabs-wrap">
 			<ul class="tabs">
 				<span>Tabs</span>
-				<li><a href="#tab1">tab1</a></li>
+				<li><a href="#tab1" class="show-tab-name">tab1</a></li>
 				<a href="#">+ Create a new tab</a>
 				<span>Sidebar</span>
 				<li><a href="#tab2">Sidebar</a></li>
