@@ -1,15 +1,13 @@
 <?php
 
-
-
 function uc_editable_hm_scripts(){
     wp_enqueue_script('uc_editable_hm_scripts', plugins_url('js/main.js', __FILE__), array('jquery'));
     wp_enqueue_script('uc_editable_hm_scripts_ajax', plugins_url('js/forms-ajax.js', __FILE__), array('jquery'));
-    wp_enqueue_style('uc_editable_hm_styles', plugins_url('css/style.css', __FILE__));   
+    wp_enqueue_style('uc_editable_hm_styles', plugins_url('css/style.css', __FILE__));
 };
 
 
-//=======================Проверяем есть ли таблица в БД, если нет , то создаем ее=============================
+//=======================Checking if we already have a needed table in DB, if not, we create it=============================
 global $wpdb;
 $table_name = $wpdb->prefix.'editable_help_tabs';
 
@@ -25,18 +23,17 @@ if($wpdb->get_var("SHOW TABLES LIKE '$table_name'") != $table_name){
         ) ;";
     require_once(ABSPATH . 'wp-admin/includes/upgrade.php');
     dbDelta($sql);
-
-
-
 };
+//=======================Checking if we already have a needed table in DB, if not, we create it=============================
 
-//================ Вносим данные в таблицу ==================================
+
+//================ Add data to DB Table ==================================
 function add_help_tabs_to_db(){
 
         global $wpdb;
+
         $title_tab = $_POST['title_tab'];
         $text_tab = $_POST['content_tab'];
-        $text_sidebar = $_POST['content_tab'];
         $text_sidebar = $_POST['content_tab'];
         $status_tab = 'trash';
 //        $screen_id = $screen->id;
@@ -45,33 +42,38 @@ function add_help_tabs_to_db(){
     $wpdb = $wpdb->insert( wp_editable_help_tabs, array( 'title_tab' =>  $title_tab, 'text_tab' => $text_tab, 'text_sidebar' => '',  'tab_status' => $status_tab) );
 
 };
-//======================= Вносим данные в таблицу =============================
+//================ Add data to DB ==================================
 
 
+//================ Edit data in DB ==================================
+function editing_existed_help_tabs_from_db (){
+    global $wpdb;
+    $title_tab = $_POST['title_tab'];
+    $text_tab = $_POST['content_tab'];
+    $text_sidebar = $_POST['content_tab'];
+    $text_sidebar = $_POST['content_tab'];
+    $current_tab_id = $_POST['current_tab_id'];
+    $status_tab = 'trash';
+//        $screen_id = $screen->id;
+//       get_current_screen()->id;
 
-//======================= меняем данные в таблице по выбраному табу =============================
+    $wpdb = $wpdb->update( wp_editable_help_tabs, array( 'title_tab' =>  $title_tab, 'text_tab' => $text_tab, 'text_sidebar' => '',  'tab_status' => $status_tab), array( 'id_tab' => $current_tab_id ) );
+};
+//================ Edit data in DB ==================================
 
 
-
-//======================= меняем данные в таблице по выбраному табу=============================
-
-
-
-
-
-
-//======================= Выводим таб с БД ==================================
-
-function show_all_edditable_tabs(){
+//======================= Show up info from DB table to the HM PANEL ==================================
+function show_all_editable_tabs(){
     $screen = get_current_screen();
 
-    $screen->remove_help_tabs();
+//    $screen->remove_help_tabs();
     $screen_id = $screen->id;
+//    print_r ($screen_id);
 
     global $wpdb;
     $tabs = $wpdb->get_results("SELECT * FROM wp_editable_help_tabs");
     $help_buttons = '<br><hr><div class="tab-help-buttons">
-					<a href ="/?TB_inline&inlineId=edit-existed-tab&width=600&height=550" class="thickbox button" class="edit-tub">Edit</a>
+					<a href ="#" class="button edit_current_tab">Edit</a>
 				</div>';
 
     foreach ($tabs as $value) {
@@ -80,11 +82,9 @@ function show_all_edditable_tabs(){
             'title' => $value->title_tab,
             'content' => $value->text_tab.$help_buttons
         ));
-
-    }
-
-
     };
-add_action('admin_head', 'show_all_edditable_tabs');
 
-//=======================Выводим таб с БД =============================
+};
+add_action('admin_head', 'show_all_editable_tabs');
+//======================= Show up info from DB table to the HM PANEL ==================================
+

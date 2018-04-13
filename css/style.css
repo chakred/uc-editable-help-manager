@@ -14,6 +14,45 @@
 	align-items: baseline;
 }
 
+.close-window-modal{
+	display: block;
+	float: right;
+	height: 30px;
+	width: 30px;
+	border: none;
+	background: #eae7e7;
+	cursor: pointer;
+}
+.close-window-modal:hover .tb-close-icon{
+	color:#0085ba;
+	transition: ease all 0.5s
+}
+
+.window-modal-bg, .window-edit-modal-bg{
+	left: 0;
+	right: 0;
+	bottom: 0;
+	top: 0;
+	position: fixed;
+	z-index: 100;
+	background: #0000008c;
+	height: 100%;
+	display: none;
+}
+
+#window-modal-wrap, #window-edit-modal-wrap {
+	max-width: 800px;
+	margin: 0 auto;
+	z-index: 101;
+	position: absolute;
+	left: 0;
+	right: 0;
+	top: 50%;
+	transform: translateY(-50%);
+	display: none;
+	max-height: 547px;
+	overflow: hidden;
+}
 
 .hm-window{
 	max-width: 800px;
@@ -65,7 +104,7 @@
 	text-decoration: none;
 	color: #353535;
 	display: block;
-	font-weight: bold;
+	font-weight: 600;
 }
 .hm-window .tabs > a{
 	color: #0073aa;
@@ -103,7 +142,7 @@
 	float:right;
 }
 .hm-window .control-buttons{
-	max-width: 150px;
+	max-width: 180px;
 	float: right;
 }
 .hm-window .control-buttons input{
@@ -116,14 +155,4 @@
 	margin-bottom: 25px;
 }
 
-#TB_ajaxContent{
-	width: auto !important;
-	height: auto !important;
-	padding: 0px !important;
-}
-#TB_window{
-	height: auto !important;
-	top: 50% !important;
-	transform: translateY(-50%) !important;
-}
 /*==========tabs modal window styles=============*/
