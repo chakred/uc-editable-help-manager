@@ -23,7 +23,7 @@ jQuery(document).ready(function($) {
            $('.window-modal-bg').fadeOut();
             $('.window-edit-modal-bg').fadeOut();
     });
-    $('#cansel-tab').on("click", function (e) {
+    $('.cansel-tab').on("click", function (e) {
         e.preventDefault();
         $('#window-modal-wrap').fadeOut();
         $('#window-edit-modal-wrap').fadeOut();

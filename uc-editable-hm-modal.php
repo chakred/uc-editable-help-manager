@@ -2,7 +2,8 @@
 
 
 function new_tabs_creating_window(){
-
+ $ggg = get_current_screen()->id;
+ // var_dump($ggg);
 	echo '<div class="window-modal-bg">
 	<div id="window-modal-wrap">
 		<button type="button" class="close-window-modal">
@@ -23,7 +24,12 @@ function new_tabs_creating_window(){
 				<div class="tab-container">
 					<div id="tab1" class="tab-content">
 						<form id="form-for-tab">
-							<input type="text" name="title" placeholder="Name of tab" id="tabs_title">';
+							<input type="text" name="title" placeholder="Name of tab" id="tabs_title">
+							<input type="text" name="screen_id"  id="screen_id" style ="display:none;" value ="';
+							echo get_current_screen()->id;
+							echo'">
+
+							';
 								wp_editor('', 'create_tabs', array(
 									'wpautop'       => 1,
 									'media_buttons' => 0,
@@ -34,15 +40,18 @@ function new_tabs_creating_window(){
 									'editor_class'  => '',
 									'teeny'         => 1,
 									'dfw'           => 1,
-									'tinymce'       => 1,
+									'tinymce'       => array( 
+            'content_css' => plugins_url('css/style.css', __FILE__),
+            'resize' => false 
+       ) ,
 									'quicktags'     => 0,
 									'drag_drop_upload' => false
 								) );
 						echo '
 					<br>
 					<div class="control-buttons">
-						<input name="cansel" type="button" class="button button-large" id ="cansel-tab" class="button-large button" value="Cancel">
-						<input name="save_tab" type="submit" class="button button-primary button-large" id ="save-new-tab" class="button button-primary button-large" value="Save">
+						<input name="cansel" type="button" class="button button-large cansel-tab" value="Cancel">
+						<input name="save_tab" type="submit" class="button button-primary button-large" value="Save">
 					</div>
 					</form>
 					</div>
@@ -59,15 +68,18 @@ function new_tabs_creating_window(){
 									'editor_class'  => '',
 									'teeny'         => 1,
 									'dfw'           => 1,
-									'tinymce'       => 1,
+									'tinymce'       => array( 
+            'content_css' => plugins_url('css/style.css', __FILE__),
+            'resize' => false 
+       ),
 									'quicktags'     => 0,
 									'drag_drop_upload' => false
 								) );
 					echo '
 				<br>
 				<div class="control-buttons">
-					<input name="cansel" type="button" class="button button-large" id ="cansel-tab" class="button-large button" value="Cancel">
-					<input name="save" type="submit" class="button button-primary button-large" id ="save-new-sidebar" class="button button-primary button-large" value="Save">
+					<input name="cansel" type="button" class="button button-large cansel-tab"" value="Cancel">
+					<input name="save" type="submit" class="button button-primary button-large"value="Save">
 				</div>
 				</form>
 				</div>

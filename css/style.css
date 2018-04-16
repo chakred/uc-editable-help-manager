@@ -154,5 +154,22 @@
 	box-sizing: border-box;
 	margin-bottom: 25px;
 }
-
+.mce-edit-area{
+	min-height: 240px;
+}
+#tab-link-hidden_tab{
+	display:none;
+}
+#tab-panel-hidden_tab{
+	text-align: center;
+}
+#tab-panel-hidden_tab p {
+	font-size: 14px;
+    font-weight: 600;
+    margin-bottom: 0px;
+    color: #868484;
+}
+#tab-panel-hidden_tab span {
+    color: silver;
+};
 /*==========tabs modal window styles=============*/

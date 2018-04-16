@@ -34,7 +34,10 @@ function exist_tabs_editing_window(){
                                 'editor_class'  => '',
                                 'teeny'         => 1,
                                 'dfw'           => 1,
-                                'tinymce'       => 1,
+                                'tinymce'       => array( 
+            'content_css' => plugins_url('css/style.css', __FILE__),
+            'resize' => false 
+       ),
                                 'quicktags'     => 0,
                                 'drag_drop_upload' => false
                             ) );
@@ -48,7 +51,7 @@ function exist_tabs_editing_window(){
                     </div>
                     <div id="tab2-2" class="tab-content">
                     <h4>SIDEBAR</h4>
-                    <form id="form-for-sidebar1">';
+                    <form id="form-for-sidebar-exist">';
                             wp_editor('', 'edit_created_sidebar', array(
                                 'wpautop'       => 1,
                                 'media_buttons' => 0,
@@ -59,7 +62,10 @@ function exist_tabs_editing_window(){
                                 'editor_class'  => '',
                                 'teeny'         => 1,
                                 'dfw'           => 1,
-                                'tinymce'       => 1,
+                                'tinymce'       => array( 
+            'content_css' => plugins_url('css/style.css', __FILE__),
+            'resize' => false 
+       ),
                                 'quicktags'     => 0,
                                 'drag_drop_upload' => false
                             ) );
