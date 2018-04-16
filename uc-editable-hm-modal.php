@@ -2,8 +2,7 @@
 
 
 function new_tabs_creating_window(){
- $ggg = get_current_screen()->id;
- // var_dump($ggg);
+
 	echo '<div class="window-modal-bg">
 	<div id="window-modal-wrap">
 		<button type="button" class="close-window-modal">
@@ -68,9 +67,9 @@ function new_tabs_creating_window(){
 									'editor_class'  => '',
 									'teeny'         => 1,
 									'dfw'           => 1,
-									'tinymce'       => array( 
+									'tinymce'       => array(
             'content_css' => plugins_url('css/style.css', __FILE__),
-            'resize' => false 
+            'resize' => false
        ),
 									'quicktags'     => 0,
 									'drag_drop_upload' => false

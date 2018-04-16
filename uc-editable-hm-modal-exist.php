@@ -44,7 +44,7 @@ function exist_tabs_editing_window(){
         echo '
                     <br>
                     <div class="control-buttons">
-                        <input name="cansel" type="button" class="button button-large" id ="cansel-tab" class="button-large button" value="Cancel">
+                        <input name="cansel" type="button" class="button button-large" class="button-large button" value="Cancel">
                         <input name="save_tab" type="submit" class="button button-primary button-large" id ="save-new-tab" class="button button-primary button-large" value="Save">
                     </div>
                     </form>
@@ -62,9 +62,9 @@ function exist_tabs_editing_window(){
                                 'editor_class'  => '',
                                 'teeny'         => 1,
                                 'dfw'           => 1,
-                                'tinymce'       => array( 
+                                'tinymce'       => array(
             'content_css' => plugins_url('css/style.css', __FILE__),
-            'resize' => false 
+            'resize' => false
        ),
                                 'quicktags'     => 0,
                                 'drag_drop_upload' => false
@@ -72,7 +72,7 @@ function exist_tabs_editing_window(){
         echo '
                 <br>
                 <div class="control-buttons">
-                    <input name="cansel" type="button" class="button button-large" id ="cansel-tab" class="button-large button" value="Cancel">
+                    <input name="cansel" type="button" class="button button-large" class="button-large button" value="Cancel">
                     <input name="save" type="submit" class="button button-primary button-large" id ="save-new-sidebar" class="button button-primary button-large" value="Save">
                 </div>
                 </form>

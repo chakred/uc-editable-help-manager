@@ -28,6 +28,11 @@ function main_identification_superadmin() {
         add_action( 'wp_ajax_add_help_tabs_to_db', 'add_help_tabs_to_db' );
         add_action( 'wp_ajax_add_help_tabs_sidebar_to_db', 'add_help_tabs_sidebar_to_db' );
         add_action( 'wp_ajax_editing_existed_help_tabs_from_db', 'editing_existed_help_tabs_from_db' );
+        add_action( 'wp_ajax_tubs_to_publish', 'tubs_to_publish' );
+
+        add_action('admin_head', 'show_all_editable_tabs');
+        add_action('in_admin_header', 'help_tabs_activation');
+//        add_action('in_admin_header', 'help_tabs_deactivation');
 
         wp_enqueue_editor();
 

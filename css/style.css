@@ -38,6 +38,7 @@
 	background: #0000008c;
 	height: 100%;
 	display: none;
+	z-index: 9999;
 }
 
 #window-modal-wrap, #window-edit-modal-wrap {
@@ -139,7 +140,9 @@
 	margin-top: 15px;
 }
 .tab-help-buttons{
-	float:right;
+	position: absolute;
+	right: 25px;
+	bottom: 10px;
 }
 .hm-window .control-buttons{
 	max-width: 180px;
@@ -163,13 +166,67 @@
 #tab-panel-hidden_tab{
 	text-align: center;
 }
-#tab-panel-hidden_tab p {
-	font-size: 14px;
+#tab-panel-hidden_tab > p {
     font-weight: 600;
     margin-bottom: 0px;
     color: #868484;
 }
-#tab-panel-hidden_tab span {
+#tab-panel-hidden_tab > p > span {
     color: silver;
-};
+}
+#tab-panel-hidden_tab{
+	margin-top: 15px;
+}
+#tab-panel-hidden_tab > span{
+	width:50px;
+	height:50px;
+	background: url("../images/no-tabs.png") no-repeat;
+	display: block;
+	margin: 0 auto;
+	background-size: 50px;
+}
+#contextual-help-wrap, .contextual-help-tabs-wrap{
+	min-height: 145px;
+	position: relative;
+}
+
 /*==========tabs modal window styles=============*/
+
+.to-publish{
+	background:#cd5935;
+	margin: 0px;
+	padding: 5px 10px;
+	color:white;
+	margin-right: 20px;
+}
+.to-publish a, .to-unpublish a {
+	color: white;
+	letter-spacing: 1px;
+	margin-left: 5px;
+}
+.to-unpublish{
+	/*background:#00800091;*/
+	background: #2c792c9c;
+	margin: 0px;
+	padding: 5px 10px;
+	color:white;
+	margin-right: 20px;
+}
+.to-publish svg{
+	width: 33px;
+	height: 19px;
+	padding-bottom: 0;
+	margin-bottom: 0;
+	vertical-align: bottom;
+	fill: white;
+	margin-right: 10px;
+}
+.to-unpublish svg{
+	width: 33px;
+	height: 19px;
+	padding-bottom: 0;
+	margin-bottom: 0;
+	vertical-align: bottom;
+	fill: white;
+	margin-right: 10px;
+}
