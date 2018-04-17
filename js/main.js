@@ -4,10 +4,10 @@ jQuery(document).ready(function($) {
         $("#tab-panel-hidden_tab").css("display", "none");
         $(".contextual-help-tabs-wrap").append($('<br><div class="tab-help-buttons"><a href ="#" class="button button-primary edit_current_tab">Edit</a></div>'));
         // $("#screen-meta").prepend($('<p class="to-publish">The menu has not been published. To publish, <a href=\'#\'> Click here</a></p>'));
-
-    }else if($(".contextual-help-tabs ul li").length >= 1){
-        $(".to-publish").css("display", "none");
-        $(".to-unpublish").css("display", "none");
+        // $(".contextual-help-tabs ul li").eq(1).addClass("active");
+        // $(".contextual-help-tabs-wrap div").eq(1).addClass("active");
+        $(".to-publish").css("display", "block");
+        $(".to-unpublish").css("display", "block");
     };
 
 

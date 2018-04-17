@@ -37,12 +37,11 @@ function new_tabs_creating_window(){
 									'tabindex'      => null,
 									'editor_css'    => '',
 									'editor_class'  => '',
-									'teeny'         => 1,
-									'dfw'           => 1,
-									'tinymce'       => array( 
-            'content_css' => plugins_url('css/style.css', __FILE__),
-            'resize' => false 
-       ) ,
+									'teeny'         => 0,
+									'dfw'           => 0,
+									'tinymce'       => array(
+									'content_css' => plugins_url('css/style.css', __FILE__),
+									'resize' => false),
 									'quicktags'     => 0,
 									'drag_drop_upload' => false
 								) );
@@ -65,12 +64,11 @@ function new_tabs_creating_window(){
 									'tabindex'      => null,
 									'editor_css'    => '',
 									'editor_class'  => '',
-									'teeny'         => 1,
-									'dfw'           => 1,
+									'teeny'         => 0,
+									'dfw'           => 0,
 									'tinymce'       => array(
-            'content_css' => plugins_url('css/style.css', __FILE__),
-            'resize' => false
-       ),
+									'content_css' => plugins_url('css/style.css', __FILE__),
+									'resize' => false),
 									'quicktags'     => 0,
 									'drag_drop_upload' => false
 								) );

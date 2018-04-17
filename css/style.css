@@ -13,15 +13,18 @@
 	display: flex;
 	align-items: baseline;
 }
-
+#window-modal-wrap .tb-close-icon, #window-edit-modal-wrap .tb-close-icon{
+	margin: 9px !important;
+}
 .close-window-modal{
 	display: block;
 	float: right;
 	height: 30px;
 	width: 30px;
 	border: none;
-	background: #eae7e7;
+	background: #f1f1f1;
 	cursor: pointer;
+	margin: 9px;
 }
 .close-window-modal:hover .tb-close-icon{
 	color:#0085ba;
@@ -67,7 +70,7 @@
     color: #0073aa;
     margin-bottom: 0px;
     margin-top: 0px;
-    background: #eae7e7;
+    background: #f1f1f1;
 }
 .hm-window .tabs{
     max-width: 200px;
@@ -77,27 +80,26 @@
     display: block;
     padding-left: 0px;
     margin: 0px;
-    background: #eae7e7;
+    background: #f1f1f1;
     height: 100%;
     min-height: 499px;
     border-right: 1px solid #d7d6d6;
 }
 .hm-window .tabs > span{
 	display: block;
-    padding: 3px 15px;
-    text-transform: uppercase;
-    font-size: 12px;
-    font-weight: bold;
-    color: #919191;
-    background: linear-gradient(#fafafa,#d7d2d2);
-    border-top: 1px solid #d7d6d6;
-    border-bottom:1px solid #d7d6d6;
+	padding: 5px 15px;
+	text-transform: uppercase;
+	font-size: 12px;
+	font-weight: bold;
+	color: #b4b4b4;
+	background: linear-gradient(#fafafa,#d7d2d26b);
+	border-top: 1px solid #d7d6d6;
+	border-bottom: 1px solid #d7d6d6;
 }
 
 .hm-window .tabs > li, .hm-window .tabs > a {
 	padding: 15px;
 	text-transform: uppercase;
-	height: 48px;
 	box-sizing: border-box;
 }
 .hm-window .tabs > li > a, .hm-window .tabs > a{
@@ -106,6 +108,10 @@
 	color: #353535;
 	display: block;
 	font-weight: 600;
+	outline: none !important;
+}
+.hm-window .tabs > li > a, .hm-window .tabs > a:focus{
+	outline: none !important;
 }
 .hm-window .tabs > a{
 	color: #0073aa;
@@ -121,21 +127,15 @@
 	padding:25px;
 	width: 100%;
 	border-top: 1px solid #d7d6d6;
+	background: #f6fbfd;
 }
 .hm-window .tabs > li.active{
-	background: whitesmoke;
+	background: #f6fbfd;
 	position: relative;
     border-bottom:1px solid #d7d6d6;
+	margin: 0 -1px;
 }
-.hm-window .tabs > li.active:after{
-	content: "";
-    position: absolute;
-    right: -3px;
-    width: 5px;
-    height: 47px;
-    background: #f5f5f5;
-    top: 0;
-}
+
 .help-tab-content{
 	margin-top: 15px;
 }
