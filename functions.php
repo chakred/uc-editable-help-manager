@@ -15,7 +15,6 @@ function uc_editable_hm_scripts(){
 //=======================Checking if we already have a needed table in DB, if not, we create it=============================
 global $wpdb;
 $table_tabs_name = $wpdb->prefix.'editable_help_tabs';
-//$table_sidebar_name = $wpdb->prefix.'editable_help_sidebar';
 
 if($wpdb->get_var("SHOW TABLES LIKE '$table_tabs_name'") != $table_tabs_name){
     $sql = "CREATE TABLE IF NOT EXISTS `$table_tabs_name`(
@@ -31,18 +30,6 @@ if($wpdb->get_var("SHOW TABLES LIKE '$table_tabs_name'") != $table_tabs_name){
     dbDelta($sql);
 };
 
-
-//if($wpdb->get_var("SHOW TABLES LIKE '$table_sidebar_name'") != $table_sidebar_name){
-//    $sql = "CREATE TABLE IF NOT EXISTS `$table_sidebar_name`(
-//            `id_sidebar` int(11) NOT NULL AUTO_INCREMENT,
-//            `text_sidebar` text,
-//            `sidebar_status` varchar(20) NOT NULL,
-//            `screen_id` varchar(40) NOT NULL,
-//            UNIQUE KEY id  (id_tab)
-//        ) ;";
-//    require_once(ABSPATH . 'wp-admin/includes/upgrade.php');
-//    dbDelta($sql);
-//};
 //=======================Checking if we already have a needed table in DB, if not, we create it=============================
 
 
@@ -51,13 +38,10 @@ if($wpdb->get_var("SHOW TABLES LIKE '$table_tabs_name'") != $table_tabs_name){
 function add_help_tabs_to_db(){
 
         global $wpdb;
-
         $title_tab = $_POST['title_tab'];
         $text_tab = $_POST['content_tab'];
-        $text_sidebar = $_POST['content_tab'];
         $status_trash = 'trash';
         $current_screen_id = $_POST['screen_id'];
-
 
         $wpdb->insert( wp_editable_help_tabs, array( 'title_tab' =>  $title_tab, 'text_tab' => $text_tab, 'text_sidebar' => '',  'tab_status' => $status_trash, 'screen_id' => $current_screen_id) );
 
@@ -70,7 +54,6 @@ function editing_existed_help_tabs_from_db (){
     global $wpdb;
     $title_tab = $_POST['title_tab'];
     $text_tab = $_POST['content_tab'];
-    $text_sidebar = $_POST['content_tab'];
     $current_tab_id = $_POST['current_tab_id'];
     $status_trash = 'trash';
 
@@ -79,16 +62,24 @@ function editing_existed_help_tabs_from_db (){
 //================ Edit data in DB ==================================
 
 
+//================ Delete tabs in DB ==================================
+function remove_existed_help_tabs_from_db (){
+    global $wpdb;
+    $current_tab_id = $_POST['current_tab_id'];
+
+    $wpdb->delete( wp_editable_help_tabs, array( 'id_tab' => $current_tab_id ) );
+
+};
+//================ Delete tabs in DB ==================================
+
+
 //================ Add data to DB Table -  sidebar ==================================
 
 function add_help_tabs_sidebar_to_db(){
 
     global $wpdb;
     $text_sidebar = $_POST['content_sidebar'];
-//    $status_sidebar = 'trash';
     $current_screen_id = $_POST['screen_id'];
-//    $current_tab_id = $_POST['current_tab_id'];
-
 
     $wpdb->update( wp_editable_help_tabs, array( 'text_sidebar' =>  $text_sidebar), array( 'screen_id' => $current_screen_id ) );
 
@@ -102,7 +93,6 @@ function show_all_editable_tabs(){
     $screen = get_current_screen();
     $define_screen_id = $screen->id;
 
-
     global $status_trash;
     global $wpdb;
     global $user_ID;
@@ -114,24 +104,38 @@ function show_all_editable_tabs(){
             'id' => "hidden_tab",
             'title' => "hidden_tab"
         ));
+        $screen->set_help_sidebar(
+            '<p style ="text-align:center;"><a href ="#" class="edit_sidebar">Edit sidebar</a></p>'
+        );
         $tabs = $wpdb->get_results("SELECT * FROM wp_editable_help_tabs WHERE screen_id = '$define_screen_id'");
     }else{
         $tabs = $wpdb->get_results("SELECT * FROM wp_editable_help_tabs WHERE screen_id = '$define_screen_id' AND tab_status = 'publish'");
+
     };
+    $screen->remove_help_tabs();
     foreach ($tabs as $value) {
-        $screen->remove_help_tabs();
+//        $screen->remove_help_tabs();
+        if(!is_super_admin( $user_ID )) {
 
         $screen->add_help_tab(array(
             'id' => "hidden_tab",
             'title' => "hidden_tab"
         ));
-            $screen->add_help_tab(array(
-                'id' => $value->id_tab,
-                'title' => $value->title_tab,
-                'content' => $value->text_tab
-            ));
 
-            $status_trash = $value->tab_status;
+        };
+        $screen->add_help_tab(array(
+            'id' => $value->id_tab,
+            'title' => $value->title_tab,
+            'content' => $value->text_tab
+        ));
+
+        if($value->text_sidebar != NULL){
+            $screen->set_help_sidebar(
+                $value->text_sidebar
+            );
+        };
+
+        $status_trash = $value->tab_status;
 
     };
 };
@@ -185,6 +189,3 @@ function help_tabs_activation(){
     };
 };
 //======================= Content of activation / deactivation  ==================================
-//function help_tabs_deactivation(){
-//    echo '<p class="to-publish"> To publish, <a href=\'#\'> Click here</a></p>';
-//};

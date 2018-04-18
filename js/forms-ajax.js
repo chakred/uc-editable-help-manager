@@ -9,7 +9,7 @@ jQuery(document).ready(function($) {
 
 
     var tabs_content ="";
-    var sidebar_content ="";
+    var sidebar_content = $(".contextual-help-sidebar p").html();
     var unique_id = 100;
 // ==================  Control form to add a new tab  =================================
     $("#form-for-tab").submit(function(e){
@@ -41,15 +41,18 @@ jQuery(document).ready(function($) {
                     $("#form-for-tab").find('input[type="submit"]').prop('disabled', false);
                     $(".show-tab-name").text(tabs_title)
                     $("#form-for-tab .control-buttons").css("display", "none");
-                    alarm('Successfully saved!');
                     $("#tab-panel-hidden_tab").css("display", "none");
                     $(".contextual-help-tabs ul").append($('<li><a href="#tab-panel-'+unique_id+'">'+tabs_title+'</a></li>'));
                     $(".contextual-help-tabs-wrap").append($('<div id="tab-panel-'+unique_id+'" class="help-tab-content">'+tabs_content+'</div>'));
-                    $(".contextual-help-tabs-wrap").append($('<br><div class="tab-help-buttons"><a href ="#" class="button button-primary " onClick="alert(\'In order to edit the tab, please reload the page!\')">Edit</a></div>'));
+                    $("#contextual-help-back").append($('<br><div class="tab-help-buttons"><a href ="#" class="button button-primary " onClick="alert(\'In order to edit the tab, please reload the page!\')">Edit</a></div>'));
                     success_sent("The tab has been successfully added!!!");
                     $(".to-unpublish").css("display", "none");
                     $(".to-publish").css("display", "none");
                     show_red_notification();
+                    setTimeout(function () {
+                        $('.close-window-modal').trigger("click");
+                    },1000);
+
                 },
                 error: function (xhr, ajaxOptions, thrownError) {
                     console.log(xhr.status);
@@ -63,6 +66,7 @@ jQuery(document).ready(function($) {
 
 // ==================  Control form to edit an existed tab  =================================
     var parse_id ="";
+
     $(".contextual-help-tabs  ul li").click(function (event) {
         var target = $( event.target );
         if(target.className = "active"){
@@ -72,19 +76,25 @@ jQuery(document).ready(function($) {
             var tab_title_value = $("#tab-link-"+parse_id).find("a").text();
             var tab_content_value = $("#tab-panel-"+parse_id);
 
-            // tinyMCE.execCommand('mceInsertContent', false, 'Текст в курсоре');
+            tinymce.get('edit_created_sidebar').setContent(sidebar_content);
+
             $("#tabs_title_edit").val(tab_title_value.trim());
             $(".show-tab-name").text(tab_title_value.trim());
+            tinymce.get('edit_created_tabs').setContent($(tab_content_value).html());
 
         };
+        // console.log(parse_id);
     });
+
+
 
     $("#form-for-tab-exist").submit(function(e){
         e.preventDefault();
 
         var tabs_title = $("#tabs_title_edit").val();
-        tabs_content = tinyMCE.activeEditor.getContent();
 
+        tabs_content = tinyMCE.activeEditor.getContent();
+        // tabs_content =  tinymce.get('edit_created_tabs').setContent();
         // console.log(tabs_content);
 
         $.ajax({
@@ -106,8 +116,8 @@ jQuery(document).ready(function($) {
             complete: function(data) {
                 $("#form-for-tab").find('input[type="submit"]').prop('disabled', false);
                 $(".show-tab-name").text(tabs_title);
-                alarm('Successfully edited!');
                 success_sent("Chosen tab was successfully edited!!!");
+                $('.close-window-modal').trigger("click");
             },
             error: function (xhr, ajaxOptions, thrownError) {
                 console.log(xhr.status);
@@ -119,11 +129,41 @@ jQuery(document).ready(function($) {
 
 // ==================  Control form to edit an existed tab  =================================
 
+// ==================  Control form to delete an existed tab  =================================
+    $(".delete_current_tab").on("click", function(e){
+        e.preventDefault();
+        $.ajax({
+            type: 'POST',
+            url: ajaxurl,
+            data: {
+                current_tab_id: parse_id,
+                action: 'remove_existed_help_tabs_from_db'
+            },
+            beforeSend: function(data) {
+                console.log(data);
+            },
+            success: function(data){
+                console.log(data);
+            },
+            complete: function(data) {
+                success_sent("Chosen tab was successfully removed!!!");
+                location.reload();
+            },
+            error: function (xhr, ajaxOptions, thrownError) {
+                console.log(xhr.status);
+                console.log(thrownError);
+            },
+        });
+        return false;
+    });
+// ==================  Control form to delete an existed tab  =================================
+
+
 // ==================  Control form to add a new sidebar  =================================
     $("#form-for-sidebar").submit(function(e){
         e.preventDefault();
 
-        sidebar_content = tinyMCE.activeEditor.getContent();
+        sidebar_content = tinymce.get('create_sidebar').getContent();
         var screen_id = $('#screen_id').val();
         // console.log(tabs_content);
 
@@ -144,7 +184,6 @@ jQuery(document).ready(function($) {
             },
             complete: function(data) {
                 $("#form-for-sidebar").find('input[type="submit"]').prop('disabled', false);
-                alarm("Sidebar successfully added!");
                 success_sent("Sidebar successfully added!!!");
             },
             error: function (xhr, ajaxOptions, thrownError) {
@@ -159,8 +198,11 @@ jQuery(document).ready(function($) {
 
 
 // ==================  Control option to publish/unpublish group of tabs  =================================
-    $(".to-publish").on("click", function (e){
+    $(".to-publish a").on("click", function (e){
+        var confirmation = confirm("Please confirm if you want to publish this menu");
+        if(confirmation){
         e.preventDefault();
+
         var screen_id = $('#screen_id').val();
         $.ajax({
             type: 'POST',
@@ -179,6 +221,8 @@ jQuery(document).ready(function($) {
             complete: function(data) {
                 $(".to-publish").css("display", "none");
                 show_green_notification();
+                location.reload();
+
             },
             error: function (xhr, ajaxOptions, thrownError) {
                 console.log(xhr.status);
@@ -187,45 +231,46 @@ jQuery(document).ready(function($) {
             },
         });
         return false;
+        };
     });
 
-    $(".to-unpublish").on("click", function (e){
-        e.preventDefault();
-        var screen_id = $('#screen_id').val();
-        $.ajax({
-            type: 'POST',
-            url: ajaxurl,
-            data: {
-                screen_id:screen_id,
-                action: 'tubs_to_unpublish'
-            },
-            beforeSend: function(data) {
-                console.log(data);
-            },
-            success: function(data){
-                console.log(data);
-                success_sent("The tabs menu has status - trash");
-            },
-            complete: function(data) {
-                $(".to-unpublish").css("display", "none");
-                show_red_notification();
-            },
-            error: function (xhr, ajaxOptions, thrownError) {
-                console.log(xhr.status);
-                console.log(thrownError);
-                success_sent("The tabs menu DOESN'T have  status - trash");
-            },
-        });
-        return false;
+    $(".to-unpublish a").on("click", function (e){
+        var confirmation = confirm("Please confirm if you want to unpublish this menu");
+        if(confirmation) {
+            e.preventDefault();
+            var screen_id = $('#screen_id').val();
+            $.ajax({
+                type: 'POST',
+                url: ajaxurl,
+                data: {
+                    screen_id: screen_id,
+                    action: 'tubs_to_unpublish'
+                },
+                beforeSend: function (data) {
+                    console.log(data);
+                },
+                success: function (data) {
+                    console.log(data);
+                    success_sent("The tabs menu has status - trash");
+                },
+                complete: function (data) {
+                    $(".to-unpublish").css("display", "none");
+                    show_red_notification();
+                    location.reload();
+                },
+                error: function (xhr, ajaxOptions, thrownError) {
+                    console.log(xhr.status);
+                    console.log(thrownError);
+                    success_sent("The tabs menu DOESN'T have  status - trash");
+                },
+            });
+            return false;
+        };
     });
 // ==================  Control option to publish/unpublish group of tabs  =================================
 
 
 
-    function alarm(message){
-        var info_block =  $("<p style ='text-align:right; position: absolute; margin: 0; color: #b4b4b4'></p>");
-        return $(info_block).text(message).insertBefore("#window-modal-wrap .control-buttons");
-    };
     function success_sent(message){
         return console.log(message);
     };

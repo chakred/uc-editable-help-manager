@@ -16,7 +16,7 @@ function new_tabs_creating_window(){
 				<ul class="tabs">
 					<span>Tabs</span>
 					<li><a href="#tab1" class="show-tab-name">New tab</a></li>
-					<a href="#">+ Create a new tab</a>
+					<a href="#" style="visibility: hidden;">+ Create a new tab</a>
 					<span>Sidebar</span>
 					<li><a href="#tab2">Sidebar</a></li>
 				</ul>
@@ -27,7 +27,6 @@ function new_tabs_creating_window(){
 							<input type="text" name="screen_id"  id="screen_id" style ="display:none;" value ="';
 							echo get_current_screen()->id;
 							echo'">
-
 							';
 								wp_editor('', 'create_tabs', array(
 									'wpautop'       => 1,

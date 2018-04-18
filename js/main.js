@@ -2,13 +2,13 @@ jQuery(document).ready(function($) {
     $("#contextual-help-back").append($('<div id="tab-panel-hidden_tab"><span></span><p>NO TABS CREATED <br><span>Create a new help menu tab to publish content.</span></p></div>'));
     if($(".contextual-help-tabs ul li").length >= 2){
         $("#tab-panel-hidden_tab").css("display", "none");
-        $(".contextual-help-tabs-wrap").append($('<br><div class="tab-help-buttons"><a href ="#" class="button button-primary edit_current_tab">Edit</a></div>'));
-        // $("#screen-meta").prepend($('<p class="to-publish">The menu has not been published. To publish, <a href=\'#\'> Click here</a></p>'));
-        // $(".contextual-help-tabs ul li").eq(1).addClass("active");
-        // $(".contextual-help-tabs-wrap div").eq(1).addClass("active");
+        $("#contextual-help-back").append($('<br><div class="tab-help-buttons"><a href ="#" class="button button-primary edit_current_tab">Edit</a></div>'));
+        $("#contextual-help-back").append($('<br><div class="tab-help-buttons delete"><a href ="#" class="button delete_current_tab">Delete</a></div>'));
+
         $(".to-publish").css("display", "block");
         $(".to-unpublish").css("display", "block");
     };
+
 
 
 
@@ -29,6 +29,7 @@ jQuery(document).ready(function($) {
         e.preventDefault();
         $('#window-edit-modal-wrap').fadeIn();
         $('.window-edit-modal-bg').fadeIn();
+        $('.hm-tabs-wrap ul li').eq(1).trigger("click");
     });
     $('.close-window-modal').on("click", function () {
            $('#window-modal-wrap').fadeOut();
@@ -43,6 +44,17 @@ jQuery(document).ready(function($) {
         $('.window-modal-bg').fadeOut();
         $('.window-edit-modal-bg').fadeOut();
     });
+    $('.edit_sidebar').on("click", function (e){
+        e.preventDefault();
+        if($(".contextual-help-tabs ul li").length == 1){
+            alert("Please create at least one tab, only then you will be able to add a sidebar")
+        }else {
+            $('#window-modal-wrap').fadeIn();
+            $('.window-modal-bg').fadeIn();
+            $('.hm-tabs-wrap ul li').eq(1).trigger("click");
+        };
+    });
+
 // ==================      Modal window control    =================================
 
 

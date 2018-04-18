@@ -142,7 +142,11 @@
 .tab-help-buttons{
 	position: absolute;
 	right: 25px;
-	bottom: 10px;
+	bottom: 23px;
+	z-index: 999;
+}
+.tab-help-buttons.delete{
+	right: 85px;
 }
 .hm-window .control-buttons{
 	max-width: 180px;
