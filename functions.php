@@ -98,12 +98,12 @@ function show_all_editable_tabs(){
     global $user_ID;
 
     if(is_super_admin( $user_ID )){
-        $screen->remove_help_tabs();
+ //       $screen->remove_help_tabs();
 
-        $screen->add_help_tab(array(
-            'id' => "hidden_tab",
-            'title' => "hidden_tab"
-        ));
+//        $screen->add_help_tab(array(
+//            'id' => "hidden_tab",
+//            'title' => "hidden_tab"
+//        ));
 
 
         $screen->set_help_sidebar(
@@ -112,23 +112,26 @@ function show_all_editable_tabs(){
         $tabs = $wpdb->get_results("SELECT * FROM wp_editable_help_tabs WHERE screen_id = '$define_screen_id'");
     }else{
         $tabs = $wpdb->get_results("SELECT * FROM wp_editable_help_tabs WHERE screen_id = '$define_screen_id' AND tab_status = 'publish'");
-        $screen->remove_help_tabs();
+//        $screen->remove_help_tabs();
     };
+
+
+    $tttt = '<br><div class="tab-help-buttons delete"><a href ="#" class="button delete_current_tab">Delete</a></div><div class="tab-help-buttons"><a href ="#" class="button button-primary edit_current_tab">Edit</a></div>';
 //    $screen->remove_help_tabs();
     foreach ($tabs as $value) {
 //        $screen->remove_help_tabs();
         if(!is_super_admin( $user_ID )) {
 
-        $screen->add_help_tab(array(
-            'id' => "hidden_tab",
-            'title' => "hidden_tab",
-        ));
+//        $screen->add_help_tab(array(
+//            'id' => "hidden_tab",
+//            'title' => "hidden_tab",
+//        ));
 
         };
         $screen->add_help_tab(array(
             'id' => $value->id_tab,
             'title' => $value->title_tab,
-            'content' => $value->text_tab
+            'content' => $value->text_tab.$tttt
         ));
 
         if($value->text_sidebar != NULL){

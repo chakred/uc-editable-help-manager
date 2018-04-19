@@ -1,11 +1,11 @@
 jQuery(document).ready(function($) {
 
-    if($(".contextual-help-tabs ul li").length >= 2){
-        $(".contextual-help-tabs ul li").eq(0).removeClass("active");
-        $(".contextual-help-tabs-wrap div").eq(0).removeClass("active");
-        $(".contextual-help-tabs ul li").eq(1).addClass("active");
-        $(".contextual-help-tabs-wrap > div ").eq(1).addClass("active");
-    };
+    // if($(".contextual-help-tabs ul li").length >= 2){
+    //     $(".contextual-help-tabs ul li").eq(0).removeClass("active");
+    //     $(".contextual-help-tabs-wrap div").eq(0).removeClass("active");
+    //     $(".contextual-help-tabs ul li").eq(1).addClass("active");
+    //     $(".contextual-help-tabs-wrap > div ").eq(1).addClass("active");
+    // };
 
 
     var tabs_content ="";
