@@ -2,16 +2,12 @@ jQuery(document).ready(function($) {
     $("#contextual-help-back").append($('<div id="tab-panel-hidden_tab"><span></span><p>NO TABS CREATED <br><span>Create a new help menu tab to publish content.</span></p></div>'));
     if($(".contextual-help-tabs ul li").length >= 2){
         $("#tab-panel-hidden_tab").css("display", "none");
-        $("#contextual-help-back").append($('<br><div class="tab-help-buttons"><a href ="#" class="button button-primary edit_current_tab">Edit</a></div>'));
-        $("#contextual-help-back").append($('<br><div class="tab-help-buttons delete"><a href ="#" class="button delete_current_tab">Delete</a></div>'));
+        $(".contextual-help-tabs-wrap").append($('<br><div class="tab-help-buttons"><a href ="#" class="button button-primary edit_current_tab">Edit</a></div>'));
+        $(".contextual-help-tabs-wrap").append($('<br><div class="tab-help-buttons delete"><a href ="#" class="button delete_current_tab">Delete</a></div>'));
 
         $(".to-publish").css("display", "block");
         $(".to-unpublish").css("display", "block");
     };
-
-
-
-
 
 
 // ==================      Add a button "+ Create New Tab" that require info from  to the <ul>    =================================
@@ -22,6 +18,7 @@ jQuery(document).ready(function($) {
 // ==================      Modal window control    =================================
     $('.create_new_tab').on("click", function (e) {
        e.preventDefault();
+        $(".show-tab-name").text("New tab");
         $('#window-modal-wrap').fadeIn();
         $('.window-modal-bg').fadeIn();
     });

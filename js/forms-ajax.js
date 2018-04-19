@@ -4,7 +4,7 @@ jQuery(document).ready(function($) {
         $(".contextual-help-tabs ul li").eq(0).removeClass("active");
         $(".contextual-help-tabs-wrap div").eq(0).removeClass("active");
         $(".contextual-help-tabs ul li").eq(1).addClass("active");
-        $(".contextual-help-tabs-wrap div").eq(1).addClass("active");
+        $(".contextual-help-tabs-wrap > div ").eq(1).addClass("active");
     };
 
 
@@ -40,8 +40,6 @@ jQuery(document).ready(function($) {
                 complete: function(data) {
                     $("#form-for-tab").find('input[type="submit"]').prop('disabled', false);
                     $(".show-tab-name").text(tabs_title)
-                    $("#form-for-tab .control-buttons").css("display", "none");
-                    $("#tab-panel-hidden_tab").css("display", "none");
                     $(".contextual-help-tabs ul").append($('<li><a href="#tab-panel-'+unique_id+'">'+tabs_title+'</a></li>'));
                     $(".contextual-help-tabs-wrap").append($('<div id="tab-panel-'+unique_id+'" class="help-tab-content">'+tabs_content+'</div>'));
                     $("#contextual-help-back").append($('<br><div class="tab-help-buttons"><a href ="#" class="button button-primary " onClick="alert(\'In order to edit the tab, please reload the page!\')">Edit</a></div>'));
@@ -49,9 +47,11 @@ jQuery(document).ready(function($) {
                     $(".to-unpublish").css("display", "none");
                     $(".to-publish").css("display", "none");
                     show_red_notification();
+                    $("#tab-panel-hidden_tab").css("display", "none");
                     setTimeout(function () {
                         $('.close-window-modal').trigger("click");
                     },1000);
+                    location.reload();
 
                 },
                 error: function (xhr, ajaxOptions, thrownError) {
@@ -74,13 +74,13 @@ jQuery(document).ready(function($) {
             parse_id = parseInt( find_id.replace(/\D+/g,""));
 
             var tab_title_value = $("#tab-link-"+parse_id).find("a").text();
-            var tab_content_value = $("#tab-panel-"+parse_id);
+            var tab_content_value = $("#tab-panel-"+parse_id+":not(.tab-help-buttons + div)");
 
             tinymce.get('edit_created_sidebar').setContent(sidebar_content);
 
             $("#tabs_title_edit").val(tab_title_value.trim());
             $(".show-tab-name").text(tab_title_value.trim());
-            tinymce.get('edit_created_tabs').setContent($(tab_content_value).html());
+            tinymce.get('edit_created_tabs').setContent($(tab_content_value).text());
 
         };
         // console.log(parse_id);
@@ -94,8 +94,6 @@ jQuery(document).ready(function($) {
         var tabs_title = $("#tabs_title_edit").val();
 
         tabs_content = tinyMCE.activeEditor.getContent();
-        // tabs_content =  tinymce.get('edit_created_tabs').setContent();
-        // console.log(tabs_content);
 
         $.ajax({
             type: 'POST',
@@ -185,6 +183,7 @@ jQuery(document).ready(function($) {
             complete: function(data) {
                 $("#form-for-sidebar").find('input[type="submit"]').prop('disabled', false);
                 success_sent("Sidebar successfully added!!!");
+                location.reload();
             },
             error: function (xhr, ajaxOptions, thrownError) {
                 console.log(xhr.status);

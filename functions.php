@@ -104,22 +104,24 @@ function show_all_editable_tabs(){
             'id' => "hidden_tab",
             'title' => "hidden_tab"
         ));
+
+
         $screen->set_help_sidebar(
             '<p style ="text-align:center;"><a href ="#" class="edit_sidebar">Edit sidebar</a></p>'
         );
         $tabs = $wpdb->get_results("SELECT * FROM wp_editable_help_tabs WHERE screen_id = '$define_screen_id'");
     }else{
         $tabs = $wpdb->get_results("SELECT * FROM wp_editable_help_tabs WHERE screen_id = '$define_screen_id' AND tab_status = 'publish'");
-
+        $screen->remove_help_tabs();
     };
-    $screen->remove_help_tabs();
+//    $screen->remove_help_tabs();
     foreach ($tabs as $value) {
 //        $screen->remove_help_tabs();
         if(!is_super_admin( $user_ID )) {
 
         $screen->add_help_tab(array(
             'id' => "hidden_tab",
-            'title' => "hidden_tab"
+            'title' => "hidden_tab",
         ));
 
         };
