@@ -239,18 +239,29 @@
 	display: block;
 	cursor: pointer;
 	margin: 15px 10px;
-	background: #0085ba;
-	border-color: #0073aa #006799 #006799;
-	box-shadow: 0 1px 0 #006799;
-	color: #fff;
-	text-decoration: none;
-	text-shadow: 0 -1px 1px #006799, 1px 0 1px #006799, 0 1px 1px #006799, -1px 0 1px #006799;
-	border-radius: 2px;
-	padding: 5px;
-	text-align: center;
-	transition:ease all 0.5s;
 }
-.contextual-help-tabs .create_new_tab:hover{
-	background: #0085bad4;
-	transition:ease all 0.5s;
+.edit_sidebar{
+	color: #555;
+	border-color: #ccc;
+	background: #f7f7f7;
+	box-shadow: 0 1px 0 #ccc;
+	vertical-align: top;
+	text-decoration: none;
+	font-size: 13px;
+	line-height: 26px;
+	height: 28px;
+	margin: 15px auto;
+	padding: 0 10px 1px;
+	cursor: pointer;
+	border-width: 1px;
+	border-style: solid;
+	-webkit-appearance: none;
+	border-radius: 3px;
+	white-space: nowrap;
+	box-sizing: border-box;
+	text-align: center;
+	display: block;
+}
+#create_tabs_ifr, edit_created_tabs_ifr, #create_sidebar_ifr {
+	height: 260px !important;
 }

@@ -1,24 +1,17 @@
 jQuery(document).ready(function($) {
 
-    // if($(".contextual-help-tabs ul li").length >= 2){
-    //     $(".contextual-help-tabs ul li").eq(0).removeClass("active");
-    //     $(".contextual-help-tabs-wrap div").eq(0).removeClass("active");
-    //     $(".contextual-help-tabs ul li").eq(1).addClass("active");
-    //     $(".contextual-help-tabs-wrap > div ").eq(1).addClass("active");
-    // };
-
-
     var tabs_content ="";
     var sidebar_content = $(".contextual-help-sidebar p").html();
     var unique_id = 100;
-// ==================  Control form to add a new tab  =================================
+
+// =======  Control form to add a new tab  =======
     $("#form-for-tab").submit(function(e){
         e.preventDefault();
         unique_id++;
         var tabs_title = $("#tabs_title").val();
         tabs_content = tinyMCE.activeEditor.getContent();
         // alert(tabs_content);
-        var screen_id = $('#screen_id').val();
+
        // console.log(tabs_content);
 
             $.ajax({
@@ -27,7 +20,7 @@ jQuery(document).ready(function($) {
                 data: {
                     title_tab: tabs_title,
                     content_tab: tabs_content,
-                    screen_id:screen_id,
+                    screen_id: pagenow,
                     action: 'add_help_tabs_to_db'
                 },
                 beforeSend: function(data) {
@@ -61,10 +54,10 @@ jQuery(document).ready(function($) {
             });
             return false;
     });
-// ==================  Control form to add a new tab  =================================
+// =======  Control form to add a new tab  =======
 
 
-// ==================  Control form to edit an existed tab  =================================
+// =======  Control form to edit an existed tab  =======
     var parse_id ="";
 
     $(".contextual-help-tabs  ul li").click(function (event) {
@@ -74,8 +67,8 @@ jQuery(document).ready(function($) {
             parse_id = parseInt( find_id.replace(/\D+/g,""));
 
             var tab_title_value = $("#tab-link-"+parse_id).find("a").text();
-            var tab_content_value = $("#tab-panel-"+parse_id+":not(.tab-help-buttons + div)");
-
+            var tab_content_value = $("#tab-panel-"+parse_id+"> :not('.tab-help-buttons')");
+console.log(tab_content_value);
             tinymce.get('edit_created_sidebar').setContent(sidebar_content);
 
             $("#tabs_title_edit").val(tab_title_value.trim());
@@ -85,8 +78,6 @@ jQuery(document).ready(function($) {
         };
         // console.log(parse_id);
     });
-
-
 
     $("#form-for-tab-exist").submit(function(e){
         e.preventDefault();
@@ -125,9 +116,10 @@ jQuery(document).ready(function($) {
         return false;
     });
 
-// ==================  Control form to edit an existed tab  =================================
+// =======  Control form to edit an existed tab  =======
 
-// ==================  Control form to delete an existed tab  =================================
+
+// =======  Control form to delete an existed tab  =======
     $(".delete_current_tab").on("click", function(e){
         e.preventDefault();
         $.ajax({
@@ -154,15 +146,15 @@ jQuery(document).ready(function($) {
         });
         return false;
     });
-// ==================  Control form to delete an existed tab  =================================
+// =======  Control form to delete an existed tab  =======
 
 
-// ==================  Control form to add a new sidebar  =================================
+// =======  Control form to add a new sidebar  =======
     $("#form-for-sidebar").submit(function(e){
         e.preventDefault();
 
         sidebar_content = tinymce.get('create_sidebar').getContent();
-        var screen_id = $('#screen_id').val();
+
         // console.log(tabs_content);
 
         $.ajax({
@@ -170,7 +162,7 @@ jQuery(document).ready(function($) {
             url: ajaxurl,
             data: {
                 content_sidebar: sidebar_content,
-                screen_id:screen_id,
+                screen_id:pagenow,
                 action: 'add_help_tabs_sidebar_to_db'
             },
             beforeSend: function(data) {
@@ -193,21 +185,20 @@ jQuery(document).ready(function($) {
         return false;
     });
 
-// ==================  Control form to add a new sidebar  =================================
+// =======  Control form to add a new sidebar  =======
 
 
-// ==================  Control option to publish/unpublish group of tabs  =================================
+// =======  Control option to publish/unpublish group of tabs  =======
     $(".to-publish a").on("click", function (e){
         var confirmation = confirm("Please confirm if you want to publish this menu");
         if(confirmation){
         e.preventDefault();
 
-        var screen_id = $('#screen_id').val();
         $.ajax({
             type: 'POST',
             url: ajaxurl,
             data: {
-                screen_id:screen_id,
+                screen_id:pagenow,
                 action: 'tubs_to_publish'
             },
             beforeSend: function(data) {
@@ -234,15 +225,13 @@ jQuery(document).ready(function($) {
     });
 
     $(".to-unpublish a").on("click", function (e){
-        var confirmation = confirm("Please confirm if you want to unpublish this menu");
-        if(confirmation) {
             e.preventDefault();
-            var screen_id = $('#screen_id').val();
+
             $.ajax({
                 type: 'POST',
                 url: ajaxurl,
                 data: {
-                    screen_id: screen_id,
+                    screen_id: pagenow,
                     action: 'tubs_to_unpublish'
                 },
                 beforeSend: function (data) {
@@ -264,11 +253,8 @@ jQuery(document).ready(function($) {
                 },
             });
             return false;
-        };
     });
-// ==================  Control option to publish/unpublish group of tabs  =================================
-
-
+// =======  Control option to publish/unpublish group of tabs  =======
 
     function success_sent(message){
         return console.log(message);
@@ -280,6 +266,5 @@ jQuery(document).ready(function($) {
     function show_red_notification() {
         return $('<p class="to-publish"><svg version="1.1" ' + 'id="Capa_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px"\n\t width="33px" height="19px" viewBox="0 0 612 612" style="enable-background:new 0 0 612 612;" xml:space="preserve">\n<g>\n\t<g id="Attention">\n\t\t<g>\n\t\t\t<path d="M605.217,501.568l-255-442C341.394,44.302,324.887,34,306,34c-18.887,0-35.394,10.302-44.217,25.568l-255,442\n\t\t\t\tC2.482,509.048,0,517.735,0,527c0,28.152,22.848,51,51,51h510c28.152,0,51-22.848,51-51\n\t\t\t\tC612,517.735,609.535,509.048,605.217,501.568z M50.966,527.051L305.949,85H306l0.034,0.051L561,527L50.966,527.051z M306,408\n\t\t\t\tc-18.768,0-34,15.232-34,34c0,18.785,15.215,34,34,34s34-15.232,34-34S324.785,408,306,408z M272,255\n\t\t\t\tc0,1.938,0.17,3.859,0.476,5.712l16.745,99.145C290.598,367.897,297.585,374,306,374s15.402-6.103,16.762-14.144l16.745-99.145\n\t\t\t\tC339.83,258.859,340,256.938,340,255c0-18.768-15.215-34-34-34C287.232,221,272,236.232,272,255z"/>\n\t\t</g>\n\t</g>\n</g>\n</svg>The help menu has not been published. To publish, <a href=\'#\' onClick="alert(\'In order to change status, please reload the page!\')"> Click here</a></p>').insertAfter(".window-edit-modal-bg");
     };
-
 
 });

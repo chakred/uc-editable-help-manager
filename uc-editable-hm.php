@@ -7,7 +7,6 @@ Author: Dmitriy Derkach
 */
 
 
-
 function main_identification_superadmin() {
 
     global $user_ID;
@@ -31,10 +30,12 @@ function main_identification_superadmin() {
 
         add_action('admin_head', 'show_all_editable_tabs');
         add_action('in_admin_header', 'help_tabs_activation');
+//        add_action('admin_head', 'set_session');
         wp_enqueue_editor();
 
     }else{
         add_action('admin_head', 'show_all_editable_tabs');
+        add_action('in_admin_header', 'show_and_hide_content');
     };
 
 };

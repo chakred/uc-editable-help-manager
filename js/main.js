@@ -1,21 +1,17 @@
 jQuery(document).ready(function($) {
-    // $("#contextual-help-back").append($('<div id="tab-panel-hidden_tab"><span></span><p>NO TABS CREATED <br><span>Create a new help menu tab to publish content.</span></p></div>'));
-    if($(".contextual-help-tabs ul li").length >= 2){
-        // $("#tab-panel-hidden_tab").css("display", "none");
-        // $(".contextual-help-tabs-wrap").append($('<br><div class="tab-help-buttons"><a href ="#" class="button button-primary edit_current_tab">Edit</a></div>'));
-        // $(".contextual-help-tabs-wrap").append($('<br><div class="tab-help-buttons delete"><a href ="#" class="button delete_current_tab">Delete</a></div>'));
 
+    if($(".contextual-help-tabs ul li").length >= 2){
         $(".to-publish").css("display", "block");
         $(".to-unpublish").css("display", "block");
     };
 
 
-// ==================      Add a button "+ Create New Tab" that require info from  to the <ul>    =================================
-	$('.contextual-help-tabs').append('<span class="create_new_tab">+ Create New Tab</span>');
-// ==================      Add a button "+ Create New Tab" that require info from  to the <ul>    =================================
+// =======      Add a button "+ Create New Tab" that require info from  to the <ul>    =======
+	$('.contextual-help-tabs').append('<span class="button button-primary create_new_tab">+ Create New Tab</span>');
+// =======      Add a button "+ Create New Tab" that require info from  to the <ul>    =======
 
 
-// ==================      Modal window control    =================================
+// =======      Modal window control    =======
     $('.create_new_tab').on("click", function (e) {
        e.preventDefault();
         $(".show-tab-name").text("New tab");
@@ -23,16 +19,17 @@ jQuery(document).ready(function($) {
         $('.window-modal-bg').fadeIn();
     });
     $('.edit_current_tab').on("click", function (e) {
-        e.preventDefault();
+
         $('#window-edit-modal-wrap').fadeIn();
         $('.window-edit-modal-bg').fadeIn();
-        $('.hm-tabs-wrap ul li').eq(1).trigger("click");
+        $('.hm-tabs-wrap ul li').eq(0).trigger("click");
+
     });
     $('.close-window-modal').on("click", function () {
-           $('#window-modal-wrap').fadeOut();
-           $('#window-edit-modal-wrap').fadeOut();
-           $('.window-modal-bg').fadeOut();
-            $('.window-edit-modal-bg').fadeOut();
+        $('#window-modal-wrap').fadeOut();
+        $('#window-edit-modal-wrap').fadeOut();
+        $('.window-modal-bg').fadeOut();
+        $('.window-edit-modal-bg').fadeOut();
     });
     $('.cansel-tab').on("click", function (e) {
         e.preventDefault();
@@ -41,26 +38,22 @@ jQuery(document).ready(function($) {
         $('.window-modal-bg').fadeOut();
         $('.window-edit-modal-bg').fadeOut();
     });
-    $('.edit_sidebar').on("click", function (e){
-        e.preventDefault();
-        if($(".contextual-help-tabs ul li").length == 1){
-            alert("Please create at least one tab, only then you will be able to add a sidebar")
-        }else {
-            $('#window-modal-wrap').fadeIn();
-            $('.window-modal-bg').fadeIn();
-            $('.hm-tabs-wrap ul li').eq(1).trigger("click");
-        };
+    $('.contextual-help-sidebar').append($('<span class="edit_sidebar">Edit sidebar</span>'));
+    $('.contextual-help-sidebar .edit_sidebar').on("click", function (){
+        $('#window-modal-wrap').fadeIn();
+        $('.window-modal-bg').fadeIn();
+        $('.hm-tabs-wrap ul li').eq(1).trigger("click");
+
     });
+// =======      Modal window control    =======
 
-// ==================      Modal window control    =================================
 
-
-// ==================      Control of tubs - in modal window      =================================
-  $('ul.tabs__caption').on('click', 'li:not(.active)', function() {
-        $(this)
-      .addClass('active').siblings().removeClass('active')
-      .closest('div.tabs').find('div.tabs__content').removeClass('active').eq($(this).index()).addClass('active');
-  });
+// =======      Control of tubs - in modal window      =======
+//   $('ul.tabs__caption').on('click', 'li:not(.active)', function() {
+//         $(this)
+//       .addClass('active').siblings().removeClass('active')
+//       .closest('div.tabs').find('div.tabs__content').removeClass('active').eq($(this).index()).addClass('active');
+//   });
 
   $('.tab-content').hide();
   $('.tab-content:first').show();
@@ -73,6 +66,6 @@ jQuery(document).ready(function($) {
 	   	var selectTab = $(this).find('a').attr('href');
 	   	$(selectTab).fadeIn();
    });
-// ==================      Control of tubs - in modal window      =================================
+// =======      Control of tubs - in modal window      =======
 
 });

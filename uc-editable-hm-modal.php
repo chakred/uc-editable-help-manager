@@ -23,16 +23,12 @@ function new_tabs_creating_window(){
 				<div class="tab-container">
 					<div id="tab1" class="tab-content">
 						<form id="form-for-tab">
-							<input type="text" name="title" placeholder="Name of tab" id="tabs_title">
-							<input type="text" name="screen_id"  id="screen_id" style ="display:none;" value ="';
-							echo get_current_screen()->id;
-							echo'">
-							';
+							<input type="text" name="title" placeholder="Name of tab" id="tabs_title">';
 								wp_editor('', 'create_tabs', array(
 									'wpautop'       => 1,
 									'media_buttons' => 0,
 									'textarea_name' => 'tabs_content',
-									'textarea_rows' => 20,
+									'textarea_rows' => 40,
 									'tabindex'      => null,
 									'editor_css'    => '',
 									'editor_class'  => '',
