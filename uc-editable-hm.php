@@ -6,6 +6,17 @@ Version: 1.0
 Author: Dmitriy Derkach
 */
 
+function options_install(){
+    add_action( 'plugins_loaded', 'init_role' );
+};
+
+function options_delete(){
+    remove_table_db();
+};
+
+
+register_activation_hook(__FILE__, 'options_install');
+register_uninstall_hook(__FILE__, 'options_delete');
 
 function init_role() {
 
@@ -18,29 +29,29 @@ function init_role() {
     add_thickbox();
     add_action( 'in_admin_header', 'new_tabs_creating_window');
     add_action( 'in_admin_header', 'exist_tabs_editing_window');
+    add_action('admin_head', 'show_editable_tabs');
     add_action( 'wp_ajax_add_tabs_to_db', 'add_tabs_to_db' );
-    add_action( 'wp_ajax_add_help_tabs_sidebar_to_db', 'add_help_tabs_sidebar_to_db' );
-    add_action( 'wp_ajax_editing_existed_help_tabs_from_db', 'editing_existed_help_tabs_from_db' );
-    add_action( 'wp_ajax_remove_existed_help_tabs_from_db', 'remove_existed_help_tabs_from_db' );
-    add_action( 'wp_ajax_tubs_to_publish', 'tubs_to_publish' );
-    add_action( 'wp_ajax_tubs_to_unpublish', 'tubs_to_unpublish' );
+    add_action( 'wp_ajax_add_sidebar_to_db', 'add_sidebar_to_db' );
+    add_action( 'wp_ajax_edit_tabs_in_db', 'edit_tabs_in_db' );
+    add_action( 'wp_ajax_remove_tabs_in_db', 'remove_tabs_in_db' );
+    add_action( 'wp_ajax_tabs_to_publish', 'tabs_to_publish' );
+    add_action( 'wp_ajax_tabs_to_unpublish', 'tabs_to_unpublish' );
+    add_action('in_admin_header', 'help_tabs_activation');
     wp_enqueue_editor();
 
     if( is_super_admin( $user_ID )){
-
-        add_action('admin_head', 'show_editable_tabs');
-        add_action('in_admin_header', 'help_tabs_activation');
-//        add_action('admin_head', 'set_session');
         wp_enqueue_editor();
-
     }else{
-        add_action('admin_head', 'show_editable_tabs');
-        add_action('in_admin_header', 'help_tabs_activation');
         add_action('admin_head', 'hide_native_tabs');
-
     };
 
 };
 
-add_action( 'plugins_loaded', 'init_role' );
+function remove_table_db(){
+
+    global $wpdb;
+    $table_tabs_name = $wpdb->prefix.'editable_help_tabs';
+    $sql = "DROP TABLE IF EXISTS $table_tabs_name";
+    $wpdb->query($sql);
+};
 

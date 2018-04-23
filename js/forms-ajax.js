@@ -68,7 +68,7 @@ jQuery(document).ready(function($) {
 
             var tab_title_value = $("#tab-link-"+parse_id).find("a").text();
             var tab_content_value = $("#tab-panel-"+parse_id+"> :not('.tab-help-buttons')");
-console.log(tab_content_value);
+            console.log(tab_content_value);
             tinymce.get('edit_created_sidebar').setContent(sidebar_content);
 
             $("#tabs_title_edit").val(tab_title_value.trim());
@@ -93,7 +93,7 @@ console.log(tab_content_value);
                 title_tab: tabs_title,
                 content_tab: tabs_content,
                 current_tab_id: parse_id,
-                action: 'editing_existed_help_tabs_from_db'
+                action: 'edit_tabs_in_db'
             },
             beforeSend: function(data) {
                 $("#form-for-tab").find('input[type="submit"]').attr('disabled', 'disabled');
@@ -107,6 +107,7 @@ console.log(tab_content_value);
                 $(".show-tab-name").text(tabs_title);
                 success_sent("Chosen tab was successfully edited!!!");
                 $('.close-window-modal').trigger("click");
+                location.reload();
             },
             error: function (xhr, ajaxOptions, thrownError) {
                 console.log(xhr.status);
@@ -128,7 +129,7 @@ console.log(tab_content_value);
             url: ajaxurl,
             data: {
                 current_tab_id: parse_id,
-                action: 'remove_existed_help_tabs_from_db'
+                action: 'remove_tabs_in_db'
             },
             beforeSend: function(data) {
                 console.log(data);
@@ -167,7 +168,7 @@ console.log(tab_content_value);
             data: {
                 content_sidebar: sidebar_content,
                 screen_id:pagenow,
-                action: 'add_help_tabs_sidebar_to_db'
+                action: 'add_sidebar_to_db'
             },
             beforeSend: function(data) {
                 $("#form-for-sidebar").find('input[type="submit"]').attr('disabled', 'disabled');
@@ -203,7 +204,7 @@ console.log(tab_content_value);
             url: ajaxurl,
             data: {
                 screen_id:pagenow,
-                action: 'tubs_to_publish'
+                action: 'tabs_to_publish'
             },
             beforeSend: function(data) {
                 console.log(data);
@@ -236,7 +237,7 @@ console.log(tab_content_value);
                 url: ajaxurl,
                 data: {
                     screen_id: pagenow,
-                    action: 'tubs_to_unpublish'
+                    action: 'tabs_to_unpublish'
                 },
                 beforeSend: function (data) {
                     console.log(data);
