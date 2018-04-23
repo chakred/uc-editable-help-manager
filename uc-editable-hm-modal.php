@@ -1,6 +1,5 @@
 <?php
 
-
 function new_tabs_creating_window(){
 
 	echo '<div class="window-modal-bg">
@@ -15,7 +14,7 @@ function new_tabs_creating_window(){
 			<div class="hm-tabs-wrap">
 				<ul class="tabs">
 					<span>Tabs</span>
-					<li><a href="#tab1" class="show-tab-name">New tab</a></li>
+					<li><a href="#tab1" class="show-tab-name">Create a new tab</a></li>
 					<a href="#" style="visibility: hidden;">+ Create a new tab</a>
 					<span>Sidebar</span>
 					<li><a href="#tab2">Sidebar</a></li>
@@ -23,7 +22,7 @@ function new_tabs_creating_window(){
 				<div class="tab-container">
 					<div id="tab1" class="tab-content">
 						<form id="form-for-tab">
-							<input type="text" name="title" placeholder="Name of tab" id="tabs_title">';
+							<input type="text" name="title" placeholder="Name of tab" id="tabs_title" required>';
 								wp_editor('', 'create_tabs', array(
 									'wpautop'       => 1,
 									'media_buttons' => 0,

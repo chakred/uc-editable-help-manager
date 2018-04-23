@@ -7,7 +7,7 @@ Author: Dmitriy Derkach
 */
 
 
-function main_identification_superadmin() {
+function init_role() {
 
     global $user_ID;
     require __DIR__.'/functions.php';
@@ -18,7 +18,7 @@ function main_identification_superadmin() {
     add_thickbox();
     add_action( 'in_admin_header', 'new_tabs_creating_window');
     add_action( 'in_admin_header', 'exist_tabs_editing_window');
-    add_action( 'wp_ajax_add_help_tabs_to_db', 'add_help_tabs_to_db' );
+    add_action( 'wp_ajax_add_tabs_to_db', 'add_tabs_to_db' );
     add_action( 'wp_ajax_add_help_tabs_sidebar_to_db', 'add_help_tabs_sidebar_to_db' );
     add_action( 'wp_ajax_editing_existed_help_tabs_from_db', 'editing_existed_help_tabs_from_db' );
     add_action( 'wp_ajax_remove_existed_help_tabs_from_db', 'remove_existed_help_tabs_from_db' );
@@ -28,17 +28,19 @@ function main_identification_superadmin() {
 
     if( is_super_admin( $user_ID )){
 
-        add_action('admin_head', 'show_all_editable_tabs');
+        add_action('admin_head', 'show_editable_tabs');
         add_action('in_admin_header', 'help_tabs_activation');
 //        add_action('admin_head', 'set_session');
         wp_enqueue_editor();
 
     }else{
-        add_action('admin_head', 'show_all_editable_tabs');
-        add_action('in_admin_header', 'show_and_hide_content');
+        add_action('admin_head', 'show_editable_tabs');
+        add_action('in_admin_header', 'help_tabs_activation');
+        add_action('admin_head', 'hide_native_tabs');
+
     };
 
 };
 
-add_action( 'plugins_loaded', 'main_identification_superadmin' );
+add_action( 'plugins_loaded', 'init_role' );
 

@@ -15,10 +15,10 @@ function exist_tabs_editing_window(){
             <div class="hm-tabs-wrap">
                 <ul class="tabs">
                     <span>Tabs</span>
-                    <li class="active"><a href="#tab1-1" class="show-tab-name">tab1</a></li>
+                    <li class="active tab1-1"><a href="#tab1-1" class="show-tab-name">Create a new tab</a></li>
                     <a href="#" style="visibility: hidden;">+ Create a new tab</a>
                     <span>Sidebar</span>
-                    <li><a href="#tab2-2">Sidebar</a></li>
+                    <li class="tab2-2"><a href="#tab2-2">Sidebar</a></li>
                 </ul>
                 <div class="tab-container">
                     <div id="tab1-1" class="tab-content">

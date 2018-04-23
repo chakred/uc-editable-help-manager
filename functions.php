@@ -1,11 +1,15 @@
 <?php
 
-
+/**
+ * Register session
+ */
 function register_session(){
     if( !session_id() )
         session_start();
 }
 add_action('init','register_session');
+
+
 
 function uc_editable_hm_scripts(){
 
@@ -24,8 +28,8 @@ function uc_editable_hm_scripts(){
 global $wpdb;
 global $status;
 
+// $status = "trash";
 
-//$status = "dddd";
 $table_tabs_name = $wpdb->prefix.'editable_help_tabs';
 
 if($wpdb->get_var("SHOW TABLES LIKE '$table_tabs_name'") != $table_tabs_name){
@@ -42,11 +46,11 @@ if($wpdb->get_var("SHOW TABLES LIKE '$table_tabs_name'") != $table_tabs_name){
     dbDelta($sql);
 };
 
-$status = "false";
+
 /**
  * Add data to DB Table
  */
-function add_help_tabs_to_db(){
+function add_tabs_to_db(){
     global $wpdb;
 
         $title_tab = $_POST['title_tab'];
@@ -57,13 +61,13 @@ function add_help_tabs_to_db(){
 
 
 //
-        if( $_SESSION['status-tabs'. $current_screen_id] == "trash"){
+        if($_SESSION['status-tabs-'.$current_screen_id] == "trash"){
             $status_change = "trash";
-        }elseif ( $_SESSION['status-tabs'. $current_screen_id] == "publish"){
+        }elseif ($_SESSION['status-tabs-'.$current_screen_id] == "publish"){
             $status_change = "publish";
         }
         else{
-            $status_change = "trash";
+            $status_change = "";
         };
 
         $wpdb->insert( wp_editable_help_tabs, array( 'title_tab' =>  $title_tab, 'text_tab' => $text_tab, 'text_sidebar' => '',  'tab_status' =>  $status_change, 'screen_id' => $current_screen_id) );
@@ -77,12 +81,13 @@ function add_help_tabs_to_db(){
 function editing_existed_help_tabs_from_db (){
 
     global $wpdb;
+
     $title_tab = $_POST['title_tab'];
     $text_tab = $_POST['content_tab'];
     $current_tab_id = $_POST['current_tab_id'];
-    $status_trash = 'trash';
+    // $status_trash = 'trash';
 
-    $wpdb->update( wp_editable_help_tabs, array( 'title_tab' =>  $title_tab, 'text_tab' => $text_tab, 'text_sidebar' => '',  'tab_status' => $status_trash), array( 'id_tab' => $current_tab_id ) );
+    $wpdb->update( wp_editable_help_tabs, array( 'title_tab' =>  $title_tab, 'text_tab' => $text_tab, 'text_sidebar' => ''), array( 'id_tab' => $current_tab_id ) );
 };
 
 
@@ -104,17 +109,23 @@ function remove_existed_help_tabs_from_db (){
 function add_help_tabs_sidebar_to_db(){
 
     global $wpdb;
+    global $status;
     $text_sidebar = $_POST['content_sidebar'];
     $current_screen_id = $_POST['screen_id'];
-    $status_trash = 'trash';
-    $wpdb->replace( wp_editable_help_tabs, array( 'text_sidebar' =>  $text_sidebar, 'tab_status' => $status_trash, 'screen_id' => $current_screen_id));
+    // $status_trash = $status;
+    if($_SESSION['status-tabs-'.$current_screen_id] =="" || $_SESSION['status-tabs-'.$current_screen_id] ==null){
+        $define_status = "trash";
+    }else{
+         $define_status = $_SESSION['status-tabs-'.$current_screen_id];
+    }
+    $wpdb->replace( wp_editable_help_tabs, array( 'text_sidebar' =>  $text_sidebar, 'tab_status' => $define_status, 'screen_id' => $current_screen_id));
 };
 
 
 /**
  * Show up info from DB table to the HM PANEL
  */
-function show_all_editable_tabs(){
+function show_editable_tabs(){
 
     $screen = get_current_screen();
     $define_screen_id = $screen->id;
@@ -123,22 +134,36 @@ function show_all_editable_tabs(){
     global $user_ID;
     global $status;
 
+    $cache_key = 'show-tabs';
+
+    
     if(is_super_admin( $user_ID )){
-        $tabs = $wpdb->get_results("SELECT * FROM wp_editable_help_tabs WHERE screen_id = '$define_screen_id'");
+        if(!$tabs = wp_cache_get($cache_key)){
+            $tabs = $wpdb->get_results("SELECT * FROM wp_editable_help_tabs WHERE screen_id = '$define_screen_id'");
+            wp_cache_set($cache_key, $tabs );
+            }
         $control_buttons = '<br><div class="tab-help-buttons delete"><a href ="#" class="button delete_current_tab">Delete</a></div><div class="tab-help-buttons"><a href ="#" class="button button-primary edit_current_tab">Edit</a></div>';
     }else{
-        $tabs = $wpdb->get_results("SELECT * FROM wp_editable_help_tabs WHERE screen_id = '$define_screen_id' AND tab_status = 'publish'");
+        if(!$tabs = wp_cache_get($cache_key)){
+            $tabs = $wpdb->get_results("SELECT * FROM wp_editable_help_tabs WHERE screen_id = '$define_screen_id' AND tab_status = 'publish'");
+
+            wp_cache_set($cache_key,  $tabs );
+            }
         $control_buttons = "";
-//        $screen->remove_help_tabs();
     };
 
     foreach ($tabs as $value) {
-
+        
         $screen->add_help_tab(array(
             'id' => $value->id_tab,
             'title' => $value->title_tab,
             'content' => $value->text_tab.$control_buttons
         ));
+        // if($value->tab_status == "trash" || $value->tab_status == "" && !is_super_admin( $user_ID )){
+        //     $screen->remove_help_tabs();
+        // }else{
+        //     return;
+        // }
 
         if($value->text_sidebar){
             $screen->set_help_sidebar(
@@ -174,8 +199,9 @@ function tubs_to_unpublish(){
     $current_screen_id = $_POST['screen_id'];
     $status = 'trash';
 
-    $wpdb->update( wp_editable_help_tabs, array( 'tab_status' => $status), array( 'screen_id' => $current_screen_id ) );
+    $wpdb->update(wp_editable_help_tabs, array( 'tab_status' => $status), array( 'screen_id' => $current_screen_id ) );
     $_SESSION['status-tabs-'. $current_screen_id] =  $status;
+
 };
 
 
@@ -183,13 +209,19 @@ function tubs_to_unpublish(){
  * Content of activation / deactivation
  */
 function help_tabs_activation(){
+
+
+    $screen = get_current_screen();
+    $define_screen_id = $screen->id;
+
     global $status;
     global $user_ID;
-//    var_dump($status);
-
-//    print_r($_SESSION);
+   // var_dump($status." !status!");
+   // var_dump($status_change." !status_change!");
+   // echo wp_cache_get($cache_key);
+   // print_r($_SESSION);
 //    var_dump($status_trash);
-    if($status == "trash"){
+    if($_SESSION['status-tabs-'.$define_screen_id] == "trash" || $_SESSION['status-tabs-'.$define_screen_id] == null || $_SESSION['status-tabs-'.$define_screen_id] == "all" ){
         echo '<p class="to-publish" style="display:none;"><svg version="1.1" id="Capa_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px"
 	 width="33px" height="19px" viewBox="0 0 612 612" style="enable-background:new 0 0 612 612;" xml:space="preserve">
 <g>
@@ -205,22 +237,21 @@ function help_tabs_activation(){
 	</g>
 </g>
 </svg>The help menu has not been published. To publish, <a href=\'#\'> Click here</a></p>';
-    }elseif ($status == "publish"){
+    }elseif ($_SESSION['status-tabs-'.$define_screen_id] == "publish"){
         echo '<p class="to-unpublish" style="display:none;"><svg width="33.00000000000006" height="15" viewBox="0 0 500 500" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" fill="#000000"><path d="M 207.375,425.00c-10.875,0.00-21.175-5.075-27.775-13.825L 90.25,293.225c-11.625-15.35-8.60-37.20, 6.75-48.825 c 15.375-11.65, 37.20-8.60, 48.825,6.75l 58.775,77.60l 147.80-237.275c 10.175-16.325, 31.675-21.325, 48.025-11.15 c 16.325,10.15, 21.325,31.675, 11.125,48.00L 236.975,408.575c-6.075,9.775-16.55,15.90-28.025,16.40C 208.425,425.00, 207.90,425.00, 207.375,425.00z" ></path></svg>The help menu has been published. To unpublish, <a href=\'#\'> Click here</a></p>';
     }
     else{
         return;
     }
 };
-//
-//function show_and_hide_content (){
-//    global $status;
-//    global $user_ID;
-//    $screen = get_current_screen();
-//    var_dump($status);
-//    if($status == "false" ){
-//        $screen->remove_help_tabs();
-//    }else{
-//        return;
-//    }
-//};
+
+
+
+function hide_native_tabs (){
+    global $status;
+    $screen = get_current_screen();
+    $define_screen_id = $screen->id;
+
+    if($status == "trash" || $status == null || $status == "all")
+        return $screen->remove_help_tabs();
+};

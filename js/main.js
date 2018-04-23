@@ -1,6 +1,6 @@
 jQuery(document).ready(function($) {
 
-    if($(".contextual-help-tabs ul li").length >= 2){
+    if($(".contextual-help-tabs ul li").length >= 1){
         $(".to-publish").css("display", "block");
         $(".to-unpublish").css("display", "block");
     };
@@ -18,11 +18,10 @@ jQuery(document).ready(function($) {
         $('#window-modal-wrap').fadeIn();
         $('.window-modal-bg').fadeIn();
     });
-    $('.edit_current_tab').on("click", function (e) {
-
+    $('.edit_current_tab').on("click", function () {
         $('#window-edit-modal-wrap').fadeIn();
         $('.window-edit-modal-bg').fadeIn();
-        $('.hm-tabs-wrap ul li').eq(0).trigger("click");
+        $('.hm-tabs-wrap ul .tab1-1').trigger("click");
 
     });
     $('.close-window-modal').on("click", function () {
@@ -38,11 +37,12 @@ jQuery(document).ready(function($) {
         $('.window-modal-bg').fadeOut();
         $('.window-edit-modal-bg').fadeOut();
     });
-    $('.contextual-help-sidebar').append($('<span class="edit_sidebar">Edit sidebar</span>'));
+    $('.contextual-help-sidebar').append($('<span class="edit_sidebar button">Edit sidebar</span>'));
     $('.contextual-help-sidebar .edit_sidebar').on("click", function (){
         $('#window-modal-wrap').fadeIn();
         $('.window-modal-bg').fadeIn();
         $('.hm-tabs-wrap ul li').eq(1).trigger("click");
+        $(".show-tab-name").text("Create a new tab");
 
     });
 // =======      Modal window control    =======
