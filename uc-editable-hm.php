@@ -41,8 +41,12 @@ function remove_table_db(){
 
     global $wpdb;
     $table_tabs_name = $wpdb->prefix.'editable_help_tabs';
-    $sql = "DROP TABLE IF EXISTS $table_tabs_name";
-    $wpdb->query($sql);
+    $sql_tab = "DROP TABLE IF EXISTS $table_tabs_name";
+    $wpdb->query($sql_tab);
+
+    $table_sidebar_name = $wpdb->prefix.'editable_help_sidebar';
+    $sql_sidebar = "DROP TABLE IF EXISTS $table_sidebar_name";
+    $wpdb->query($sql_sidebar);
 
 };
 
