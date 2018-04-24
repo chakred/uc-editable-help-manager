@@ -43,6 +43,7 @@ jQuery(document).ready(function($) {
         $('.window-modal-bg').fadeIn();
         $('.hm-tabs-wrap ul li').eq(1).trigger("click");
         $(".show-tab-name").text("Create a new tab");
+        tinymce.get('create_sidebar').setContent($(".contextual-help-sidebar>:not('.edit_sidebar')").html());
 
     });
 // =======      Modal window control    =======

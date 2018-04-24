@@ -1,7 +1,6 @@
 <?php
 
-
-function exist_tabs_editing_window(){
+function tabs_editing_window(){
 
     echo '<div class="window-edit-modal-bg">
 	<div id="window-edit-modal-wrap">

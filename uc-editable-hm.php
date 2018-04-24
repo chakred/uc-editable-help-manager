@@ -6,17 +6,6 @@ Version: 1.0
 Author: Dmitriy Derkach
 */
 
-function options_install(){
-    add_action( 'plugins_loaded', 'init_role' );
-};
-
-function options_delete(){
-    remove_table_db();
-};
-
-
-register_activation_hook(__FILE__, 'options_install');
-register_uninstall_hook(__FILE__, 'options_delete');
 
 function init_role() {
 
@@ -27,8 +16,8 @@ function init_role() {
 
     add_action('admin_enqueue_scripts', 'uc_editable_hm_scripts');
     add_thickbox();
-    add_action( 'in_admin_header', 'new_tabs_creating_window');
-    add_action( 'in_admin_header', 'exist_tabs_editing_window');
+    add_action( 'in_admin_header', 'tabs_creating_window');
+    add_action( 'in_admin_header', 'tabs_editing_window');
     add_action('admin_head', 'show_editable_tabs');
     add_action( 'wp_ajax_add_tabs_to_db', 'add_tabs_to_db' );
     add_action( 'wp_ajax_add_sidebar_to_db', 'add_sidebar_to_db' );
@@ -46,6 +35,7 @@ function init_role() {
     };
 
 };
+add_action( 'plugins_loaded', 'init_role' );
 
 function remove_table_db(){
 
@@ -53,5 +43,7 @@ function remove_table_db(){
     $table_tabs_name = $wpdb->prefix.'editable_help_tabs';
     $sql = "DROP TABLE IF EXISTS $table_tabs_name";
     $wpdb->query($sql);
+
 };
 
+register_deactivation_hook(__FILE__, 'remove_table_db');

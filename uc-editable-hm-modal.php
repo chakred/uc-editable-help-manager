@@ -1,6 +1,6 @@
 <?php
 
-function new_tabs_creating_window(){
+function tabs_creating_window(){
 
 	echo '<div class="window-modal-bg">
 	<div id="window-modal-wrap">

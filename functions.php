@@ -10,7 +10,9 @@ function register_session(){
 add_action('init','register_session');
 
 
-
+/**
+ * Enqueue scrips/styles
+ */
 function uc_editable_hm_scripts(){
 
     global $user_ID;
@@ -112,16 +114,16 @@ function remove_tabs_in_db (){
 function add_sidebar_to_db(){
 
     global $wpdb;
-//    global $status;
     $text_sidebar = $_POST['content_sidebar'];
     $current_screen_id = $_POST['screen_id'];
-    // $status_trash = $status;
     if($_SESSION['status-tabs-'.$current_screen_id] =="" || $_SESSION['status-tabs-'.$current_screen_id] ==null){
         $define_status = "trash";
     }else{
          $define_status = $_SESSION['status-tabs-'.$current_screen_id];
-    }
-    $wpdb->replace( wp_editable_help_tabs, array( 'text_sidebar' =>  $text_sidebar, 'tab_status' => $define_status, 'screen_id' => $current_screen_id));
+    };
+    $recID = $wpdb->get_var( "SELECT id_tab FROM wp_editable_help_tabs WHERE screen_id LIKE '$current_screen_id'");
+    $wpdb->replace( wp_editable_help_tabs, array('id_tab' =>  $recID, 'text_sidebar' =>  $text_sidebar, 'tab_status' => $define_status, 'screen_id' => $current_screen_id));
+    $wpdb->insert_Id;
 
 };
 
@@ -191,7 +193,6 @@ function tabs_to_publish(){
     $wpdb->update( wp_editable_help_tabs, array( 'tab_status' => $status), array( 'screen_id' => $current_screen_id ) );
     $_SESSION['status-tabs-'. $current_screen_id] =  $status;
 
-
 };
 function tabs_to_unpublish(){
 
@@ -214,12 +215,13 @@ function help_tabs_activation(){
 
     global $status;
 
-    var_dump($status." !status!");
-    var_dump($status_change." !status_change!");
-   // echo wp_cache_get($cache_key);
-    print_r($_SESSION);
+//    var_dump($status." !status!");
+//    var_dump($status_change." !status_change!");
+//      echo wp_cache_get($cache_key);
+//    print_r($_SESSION);
 //    var_dump($status_trash);
-    if($status == "trash" || $status == "" ){
+
+    if($status == "trash" || $status == "" || $status == "all"){
         echo '<p class="to-publish" style="display:none;"><svg version="1.1" id="Capa_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px"
 	 width="33px" height="19px" viewBox="0 0 612 612" style="enable-background:new 0 0 612 612;" xml:space="preserve">
     <g>

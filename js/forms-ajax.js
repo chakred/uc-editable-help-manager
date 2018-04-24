@@ -10,8 +10,6 @@ jQuery(document).ready(function($) {
         unique_id++;
         var tabs_title = $("#tabs_title").val();
         tabs_content = tinyMCE.activeEditor.getContent();
-        // alert(tabs_content);
-
        // console.log(tabs_content);
 
             $.ajax({
@@ -68,7 +66,7 @@ jQuery(document).ready(function($) {
 
             var tab_title_value = $("#tab-link-"+parse_id).find("a").text();
             var tab_content_value = $("#tab-panel-"+parse_id+"> :not('.tab-help-buttons')");
-            console.log(tab_content_value);
+            // console.log(tab_content_value);
             tinymce.get('edit_created_sidebar').setContent(sidebar_content);
 
             $("#tabs_title_edit").val(tab_title_value.trim());
@@ -159,7 +157,7 @@ jQuery(document).ready(function($) {
         e.preventDefault();
 
         sidebar_content = tinymce.get('create_sidebar').getContent();
-
+        // tinymce.get('create_sidebar').setContent(sidebar_content);
         // console.log(tabs_content);
 
         $.ajax({
@@ -167,7 +165,7 @@ jQuery(document).ready(function($) {
             url: ajaxurl,
             data: {
                 content_sidebar: sidebar_content,
-                screen_id:pagenow,
+                screen_id: pagenow,
                 action: 'add_sidebar_to_db'
             },
             beforeSend: function(data) {
