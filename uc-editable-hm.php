@@ -9,6 +9,7 @@ Author: Dmitriy Derkach
 
 function init_role() {
 
+
     global $user_ID;
     require __DIR__.'/functions.php';
     require __DIR__.'/uc-editable-hm-modal.php';
@@ -16,8 +17,8 @@ function init_role() {
 
     add_action('admin_enqueue_scripts', 'uc_editable_hm_scripts');
     add_thickbox();
-    add_action( 'in_admin_header', 'tabs_creating_window');
-    add_action( 'in_admin_header', 'tabs_editing_window');
+    add_action( 'in_admin_header', 'uConnect\HelpManager\AddTabs\\tabs_creating_window');
+    add_action( 'in_admin_header', 'uConnect\HelpManager\EditTabs\\tabs_editing_window');
     add_action('admin_head', 'show_editable_tabs');
     add_action( 'wp_ajax_add_tabs_to_db', 'add_tabs_to_db' );
     add_action( 'wp_ajax_add_sidebar_to_db', 'add_sidebar_to_db' );

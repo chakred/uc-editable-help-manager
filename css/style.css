@@ -193,6 +193,9 @@
 	min-height: 145px;
 	position: relative;
 }
+.contextual-help-tabs-wrap > div{
+	margin-bottom: 50px;
+}
 
 /*==========tabs modal window styles=============*/
 
@@ -262,7 +265,7 @@
 	display: block !important;
 	margin: 15px auto !important;
 }
-#create_tabs_ifr, edit_created_tabs_ifr, #create_sidebar_ifr {
+#create_tabs_ifr, #edit_created_tabs_ifr, #create_sidebar_ifr {
 	height: 260px !important;
 }
 .contextual-help-sidebar{

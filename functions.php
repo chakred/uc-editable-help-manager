@@ -39,6 +39,7 @@ $table_sidebar_name = $wpdb->prefix.'editable_help_sidebar';
 if($wpdb->get_var("SHOW TABLES LIKE '$table_tabs_name'") != $table_tabs_name){
     $sql = "CREATE TABLE IF NOT EXISTS `$table_tabs_name`(
             `id_tab` int(11) NOT NULL AUTO_INCREMENT,
+            `id_wp` text NOT NULL,
             `title_tab` varchar(40) NOT NULL,
             `text_tab` text NOT NULL,
             `tab_status` varchar(20) NOT NULL,
@@ -83,7 +84,7 @@ function add_tabs_to_db(){
         $status_change = "";
     };
 
-    $wpdb->insert( wp_editable_help_tabs, array( 'title_tab' =>  $title_tab, 'text_tab' => $text_tab, 'tab_status' =>  $status_change, 'screen_id' => $current_screen_id) );
+    $wpdb->insert( wp_editable_help_tabs, array( 'id_wp' => $title_tab,  'title_tab' =>  $title_tab, 'text_tab' => $text_tab, 'tab_status' =>  $status_change, 'screen_id' => $current_screen_id) );
 
 };
 
@@ -157,6 +158,25 @@ function show_editable_tabs(){
     $cache_key_sidebar = 'show-sidebar';
     $group = 'help';
 
+
+    $native_tabs = $screen->get_help_tabs();
+
+    $recId= $wpdb->get_col( "SELECT id_wp FROM wp_editable_help_tabs WHERE screen_id LIKE '$define_screen_id'");
+    foreach($native_tabs as $base_key => $base_value) {
+//        var_dump ($base_value['id']);
+
+        if(!in_array($base_value['id'], $recId ) && !is_numeric($base_value['id'])){
+
+            $wpdb->insert( 'wp_editable_help_tabs', array( 'id_wp' => $base_value['id'], 'title_tab' =>  $base_value['title'], 'text_tab' => $base_value['content'], 'screen_id' => $define_screen_id) );
+
+//           print_r ( $recTitles).'<br>';
+        };
+        if(!is_numeric( $base_value['id'])){
+            $screen->remove_help_tab($base_value['id']);
+        }
+    };
+
+
     if(is_super_admin( $user_ID )){
         if(!$tabs = wp_cache_get($cache_key_tab, $group)){
             $tabs = $wpdb->get_results("SELECT * FROM wp_editable_help_tabs WHERE screen_id = '$define_screen_id'");
@@ -182,7 +202,7 @@ function show_editable_tabs(){
     };
 
     foreach (wp_cache_get($cache_key_tab, $group) as $value) {
-        
+
         $screen->add_help_tab(array(
             'id' => $value->id_tab,
             'title' => $value->title_tab,
@@ -241,13 +261,20 @@ function tabs_to_unpublish(){
  */
 function help_tabs_activation(){
 
+    $screen = get_current_screen();
+    $define_screen_id = $screen->id;
+
     global $status;
 
+    print_r(__NAMESPACE__);
+
+//    print_r(count($screen->get_help_tabs()));
 //    var_dump($status." !status!");
 //    var_dump($status_change." !status_change!");
 //      echo wp_cache_get($cache_key_tab);
 //    print_r($_SESSION);
 //    var_dump($status_trash);
+
 
     if($status == "trash" || $status == "" || $status == "all"){
         echo '<p class="to-publish" style="display:none;"><svg version="1.1" id="Capa_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px"

@@ -1,5 +1,7 @@
 <?php
 
+namespace uConnect\HelpManager\AddTabs;
+
 function tabs_creating_window(){
 
 	echo '<div class="window-modal-bg">

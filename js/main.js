@@ -12,6 +12,8 @@ jQuery(document).ready(function($) {
 
 
 // =======      Modal window control    =======
+    var text_sidebar = "";
+
     $('.create_new_tab').on("click", function (e) {
        e.preventDefault();
         $(".show-tab-name").text("New tab");
@@ -29,6 +31,7 @@ jQuery(document).ready(function($) {
         $('#window-edit-modal-wrap').fadeOut();
         $('.window-modal-bg').fadeOut();
         $('.window-edit-modal-bg').fadeOut();
+        text_sidebar = ""
     });
     $('.cansel-tab').on("click", function (e) {
         e.preventDefault();
@@ -36,15 +39,24 @@ jQuery(document).ready(function($) {
         $('#window-edit-modal-wrap').fadeOut();
         $('.window-modal-bg').fadeOut();
         $('.window-edit-modal-bg').fadeOut();
+        text_sidebar = ""
     });
+
+
     $('.contextual-help-sidebar').append($('<span class="edit_sidebar button">Edit sidebar</span>'));
     $('.contextual-help-sidebar .edit_sidebar').on("click", function (){
         $('#window-modal-wrap').fadeIn();
         $('.window-modal-bg').fadeIn();
         $('.hm-tabs-wrap ul li').eq(1).trigger("click");
         $(".show-tab-name").text("Create a new tab");
-        tinymce.get('create_sidebar').setContent($(".contextual-help-sidebar>:not('.edit_sidebar')").html());
 
+
+
+       $(".contextual-help-sidebar p").each(function () {
+           text_sidebar += $(this).html()+"<br>";
+       });
+
+        tinymce.get('create_sidebar').setContent(text_sidebar);
     });
 // =======      Modal window control    =======
 

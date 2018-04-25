@@ -1,5 +1,7 @@
 <?php
 
+namespace uConnect\HelpManager\EditTabs;
+
 function tabs_editing_window(){
 
     echo '<div class="window-edit-modal-bg">
@@ -27,7 +29,7 @@ function tabs_editing_window(){
                                 'wpautop'       => 1,
                                 'media_buttons' => 0,
                                 'textarea_name' => 'tabs_content',
-                                'textarea_rows' => 20,
+                                'textarea_rows' => get_option('default_post_edit_rows', 80),
                                 'tabindex'      => null,
                                 'editor_css'    => '',
                                 'editor_class'  => '',
