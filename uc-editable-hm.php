@@ -21,7 +21,6 @@ function init_role() {
 
 
     if( is_super_admin( $user_ID )){
-        // wp_enqueue_editor();
         add_action('admin_enqueue_scripts', 'uConnect\HelpManager\Functions\\uc_editable_hm_scripts');
         add_action( 'in_admin_header', 'uConnect\HelpManager\AddTabs\\tabs_creating_window');
         add_action( 'in_admin_header', 'uConnect\HelpManager\EditTabs\\tabs_editing_window');
@@ -32,7 +31,6 @@ function init_role() {
         add_action( 'wp_ajax_tabs_to_publish', 'uConnect\HelpManager\Functions\\tabs_to_publish' );
         add_action( 'wp_ajax_tabs_to_unpublish', 'uConnect\HelpManager\Functions\\tabs_to_unpublish' );
         add_action('in_admin_header', 'uConnect\HelpManager\Functions\\help_tabs_activation');
-        wp_enqueue_editor();
     }else{
         add_action('admin_head', 'uConnect\HelpManager\Functions\\hide_native_tabs');
     };
