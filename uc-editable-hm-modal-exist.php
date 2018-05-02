@@ -7,7 +7,7 @@ function tabs_editing_window(){
     echo '<div class="window-edit-modal-bg">
 	<div id="window-edit-modal-wrap">
 		<button type="button" class="close-window-modal">
-			<span class="tb-close-icon"></span>
+			 <span class="dashicons dashicons-no tb-close-icon"></span>
 		</button>
         <div class="hm-window">
             <h3>Help menu: ';

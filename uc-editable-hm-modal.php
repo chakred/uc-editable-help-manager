@@ -7,7 +7,7 @@ function tabs_creating_window(){
 	echo '<div class="window-modal-bg">
 	<div id="window-modal-wrap">
 		<button type="button" class="close-window-modal">
-			<span class="tb-close-icon"></span>
+            <span class="dashicons dashicons-no tb-close-icon"></span>
 		</button>
 		<div class="hm-window">
 			<h3>Help menu: ';

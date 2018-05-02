@@ -33,7 +33,7 @@ jQuery(document).ready(function($) {
                     $(".show-tab-name").text(tabs_title)
                     $(".contextual-help-tabs ul").append($('<li><a href="#tab-panel-'+unique_id+'">'+tabs_title+'</a></li>'));
                     $(".contextual-help-tabs-wrap").append($('<div id="tab-panel-'+unique_id+'" class="help-tab-content">'+tabs_content+'</div>'));
-                    $("#contextual-help-back").append($('<br><div class="tab-help-buttons"><a href ="#" class="button button-primary " onClick="alert(\'In order to edit the tab, please reload the page!\')">Edit</a></div>'));
+                    // $("#contextual-help-back").append($('<br><div class="tab-help-buttons"><a href ="#" class="button button-primary " onClick="alert(\'In order to edit the tab, please reload the page!\')">Edit</a></div>'));
                     success_sent("The tab has been successfully added!!!");
                     $(".to-unpublish").css("display", "none");
                     $(".to-publish").css("display", "none");
