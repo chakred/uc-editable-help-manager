@@ -67,10 +67,11 @@
 }
 .hm-window h3 {
 	padding: 15px;
-    color: #0073aa;
-    margin-bottom: 0px;
-    margin-top: 0px;
-    background: #f1f1f1;
+	color: #d8d8d8;
+	margin-bottom: 0px;
+	margin-top: 0px;
+	background: #f1f1f1;
+	text-transform: uppercase;
 }
 .hm-window .tabs{
     max-width: 200px;
@@ -91,8 +92,8 @@
 	text-transform: uppercase;
 	font-size: 12px;
 	font-weight: bold;
-	color: #b4b4b4;
-	background: linear-gradient(#fafafa,#d7d2d26b);
+	color: #646262;
+	background-image: linear-gradient(#fffbfb 20%, #d8d8d882 51%, #ffffff);
 	border-top: 1px solid #d7d6d6;
 	border-bottom: 1px solid #d7d6d6;
 }
@@ -101,11 +102,12 @@
 	padding: 15px;
 	text-transform: uppercase;
 	box-sizing: border-box;
+	margin-bottom: 0px;
 }
 .hm-window .tabs > li > a, .hm-window .tabs > a{
 	font-size: 12px;
 	text-decoration: none;
-	color: #353535;
+	color: #0085ba;
 	display: block;
 	font-weight: 600;
 	outline: none !important;
@@ -132,8 +134,9 @@
 .hm-window .tabs > li.active{
 	background: #f6fbfd;
 	position: relative;
-    border-bottom:1px solid #d7d6d6;
 	margin: 0 -1px;
+	border-left: 3px solid #0085ba;
+	box-shadow: 0 2px 0 rgba(0,0,0,.02), 0 1px 0 rgba(0,0,0,.02);
 }
 
 .help-tab-content{

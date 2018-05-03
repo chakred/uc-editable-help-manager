@@ -17,7 +17,6 @@ function tabs_editing_window(){
                 <ul class="tabs">
                     <span>Tabs</span>
                     <li class="active tab1-1"><a href="#tab1-1" class="show-tab-name">Create a new tab</a></li>
-                    <a href="#" style="visibility: hidden;">+ Create a new tab</a>
                     <span>Sidebar</span>
                     <li class="tab2-2"><a href="#tab2-2">Sidebar</a></li>
                 </ul>

@@ -17,7 +17,6 @@ function tabs_creating_window(){
 				<ul class="tabs">
 					<span>Tabs</span>
 					<li><a href="#tab1" class="show-tab-name">Create a new tab</a></li>
-					<a href="#" style="visibility: hidden;">+ Create a new tab</a>
 					<span>Sidebar</span>
 					<li><a href="#tab2">Sidebar</a></li>
 				</ul>

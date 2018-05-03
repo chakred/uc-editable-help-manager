@@ -7,7 +7,7 @@ namespace uConnect\HelpManager\Functions;
 function register_session(){
     if( !session_id() )
         session_start();
-}
+};
 
 
 
@@ -25,10 +25,8 @@ function uc_editable_hm_scripts(){
 
 };
 
-global $wpdb;
 global $status;
 $status = "trash";
-
 
 
 /**
@@ -37,9 +35,10 @@ $status = "trash";
 function add_tabs_to_db(){
 
     global $wpdb;
+    global $cache_key_tab;
+    global $group_tb;
+
     $table_tabs_name = $wpdb->base_prefix.'editable_help_tabs';
-
-
     $title_tab = $_POST['title_tab'];
     $text_tab = $_POST['content_tab'];
     $current_screen_id = $_POST['screen_id'];
@@ -52,14 +51,16 @@ function add_tabs_to_db(){
     else{
         $status_change = "";
     };
+    if(!$add_tabs = wp_cache_get($cache_key_tab, $group_tb)){
+        $insert_tab ="INSERT INTO $table_tabs_name (id_wp, title_tab, text_tab, tab_status, screen_id) VALUES ('%d', '%s', '%s','%s', '%s')";
+        $query = $wpdb->prepare($insert_tab, $title_tab, $title_tab, $text_tab, $status_change, $current_screen_id);
+        $add_tabs = $wpdb->query($query);
 
-    $insert_tab ="INSERT INTO $table_tabs_name (id_wp, title_tab, text_tab, tab_status, screen_id) VALUES ('%d', '%s', '%s','%s', '%s')";
-    $query = $wpdb->prepare($insert_tab, $title_tab, $title_tab, $text_tab, $status_change, $current_screen_id);
-    $result = $wpdb->query($query);
+        if($add_tabs === false)
+            die("Error DB - Cannot add a new tab!");
 
-    if($result === false)
-        die("Error DB - Cannot add a new tab!");
-
+        wp_cache_set($cache_key_tab, $add_tabs, $group_tb );
+    }
 };
 
 
@@ -71,13 +72,24 @@ function add_tabs_to_db(){
 function edit_tabs_in_db (){
 
     global $wpdb;
-    $table_tabs_name = $wpdb->base_prefix.'editable_help_tabs';
+    global $cache_key_tab;
+    global $group_tb;
 
+    $table_tabs_name = $wpdb->base_prefix.'editable_help_tabs';
     $title_tab = $_POST['title_tab'];
     $text_tab = $_POST['content_tab'];
     $current_tab_id = $_POST['current_tab_id'];
 
-    $wpdb->update(  $table_tabs_name, array( 'title_tab' =>  $title_tab, 'text_tab' => $text_tab), array( 'id_tab' => $current_tab_id ) );
+    if(!$edit_tabs = wp_cache_get($cache_key_tab, $group_tb)){
+        $update_tab ="UPDATE $table_tabs_name SET title_tab = %s, text_tab = %s  WHERE id_tab = %d";
+        $query = $wpdb->prepare($update_tab, $title_tab, $text_tab, $current_tab_id);
+        $edit_tabs = $wpdb->query($query);
+
+        if($edit_tabs === false)
+            die("Error DB - Cannot edit tab!");
+
+        wp_cache_set($cache_key_tab, $edit_tabs, $group_tb );
+    }
 };
 
 
@@ -88,9 +100,18 @@ function edit_tabs_in_db (){
 function remove_tabs_in_db (){
 
     global $wpdb;
+    global $cache_key_tab;
+    global $group_tb;
+
     $table_tabs_name = $wpdb->base_prefix.'editable_help_tabs';
     $current_tab_id = $_POST['current_tab_id'];
-    $wpdb->delete(  $table_tabs_name, array('id_tab' => $current_tab_id ));
+
+    if(!$delete_tabs = wp_cache_get($cache_key_tab, $group_tb)){
+        $delete_tabs = $wpdb->query(
+            $wpdb->prepare("DELETE FROM $table_tabs_name WHERE id_tab = %d", $current_tab_id)
+        );
+        wp_cache_set($cache_key_tab, $delete_tabs, $group_tb );
+    }
 
 };
 
@@ -114,7 +135,6 @@ function add_sidebar_to_db(){
          $define_status = $_SESSION['status-tabs-'.$current_screen_id];
     };
 
-
     if(!$sidebar = wp_cache_get($cache_key_sidebar, $group_sb)){
         $recID = $wpdb->get_var( "SELECT id_sidebar FROM  $table_sidebar_name WHERE screen_id = '$current_screen_id'");
         $sidebar = $wpdb->replace( $table_sidebar_name, array('id_sidebar' =>  $recID, 'text_sidebar' =>  $text_sidebar, 'tab_status' => $define_status, 'screen_id' => $current_screen_id));
@@ -122,9 +142,6 @@ function add_sidebar_to_db(){
 
         wp_cache_set($cache_key_sidebar, $sidebar, $group_sb );
     }
-
-
-
 
 };
 
@@ -136,9 +153,6 @@ function add_sidebar_to_db(){
 
 function show_editable_tabs(){
 
-    $screen = get_current_screen();
-    $define_screen_id = $screen->id;
-
     global $wpdb;
     global $user_ID;
     global $status;
@@ -146,12 +160,14 @@ function show_editable_tabs(){
     global $cache_key_sidebar;
     global $group_tb;
     global $group_sb;
+
+    $screen = get_current_screen();
+    $define_screen_id = $screen->id;
     $table_tabs_name = $wpdb->base_prefix.'editable_help_tabs';
     $table_sidebar_name = $wpdb->base_prefix.'editable_help_sidebar';
-
     $cache_key_tab = $screen->id;
     $cache_key_sidebar = $screen->id;
-    $group_tb = 'help';
+    $group_tb = 'help_tb';
     $group_sb = 'help_sb';
     wp_cache_add_global_groups($group_tb);
     wp_cache_add_global_groups($group_sb);
@@ -199,11 +215,15 @@ function show_editable_tabs(){
             wp_cache_set($cache_key_sidebar, $sidebars, $group_sb );
         }
         $control_buttons = "";
-
     };
 
-//    var_dump(wp_cache_get($cache_key_tab, $group_tb));
+//    var_dump(wp_cache_get($cache_key_tab, $group_tb).'<br>');
 //    var_dump(wp_cache_get($cache_key_sidebar, $group_sb));
+
+//    global $wp_object_cache;
+//    var_export( $wp_object_cache );
+//    global $cache_key_tab;
+//    print_r($cache_key_tab);
 
     foreach (wp_cache_get($cache_key_tab, $group_tb) as $value) {
 
@@ -212,18 +232,19 @@ function show_editable_tabs(){
             'title' => $value->title_tab,
             'content' => $value->text_tab.$control_buttons
         ));
-
         $status = $value->tab_status;
 
     };
 
     foreach (wp_cache_get($cache_key_sidebar, $group_sb) as $value) {
+
         if($value->text_sidebar){
             $screen->set_help_sidebar(
                 $value->text_sidebar
             );
         };
         $status = $value->tab_status;
+
     }
 
 };
@@ -237,6 +258,7 @@ function tabs_to_publish(){
 
     global $wpdb;
     global $status;
+
     $current_screen_id = $_POST['screen_id'];
     $status = 'publish';
     $table_tabs_name = $wpdb->base_prefix.'editable_help_tabs';
@@ -266,6 +288,7 @@ function tabs_to_unpublish(){
 
     global $wpdb;
     global $status;
+
     $current_screen_id = $_POST['screen_id'];
     $status = 'trash';
     $table_tabs_name = $wpdb->base_prefix.'editable_help_tabs';
