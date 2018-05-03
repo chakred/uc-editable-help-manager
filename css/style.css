@@ -13,9 +13,9 @@
 	display: flex;
 	align-items: baseline;
 }
-#window-modal-wrap .tb-close-icon, #window-edit-modal-wrap .tb-close-icon{
-	margin: 9px !important;
-}
+/*#window-modal-wrap .tb-close-icon, #window-edit-modal-wrap .tb-close-icon{*/
+	/*margin: 9px !important;*/
+/*}*/
 .close-window-modal{
 	display: block;
 	float: right;
