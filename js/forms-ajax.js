@@ -58,6 +58,26 @@ jQuery(document).ready(function($) {
 // =======  Control form to edit an existed tab  =======
     var parse_id;
 
+    $('.tab-help-buttons').click(function(event){
+        var target = $( event.target );
+        if(target.className = "tab-help-buttons"){
+            var find_id = $(this).parent().attr("id");
+            parse_id = parseInt( find_id.replace(/\D+/g,""));
+
+            var tab_title_value = $("#tab-link-"+parse_id).find("a").text();
+            var tab_content_value = $("#tab-panel-"+parse_id+"> :not('.tab-help-buttons')");
+            // console.log(tab_content_value);
+            tinymce.get('edit_created_sidebar').setContent(sidebar_content);
+
+            $("#tabs_title_edit").val(tab_title_value.trim());
+            $(".show-tab-name").text(tab_title_value.trim());
+            tinymce.get('edit_created_tabs').setContent($(tab_content_value).text());
+
+        };
+
+        // console.log(parse_id);
+    });
+
     $(".contextual-help-tabs  ul li").click(function (event) {
         var target = $( event.target );
         if(target.className = "active"){
@@ -74,6 +94,7 @@ jQuery(document).ready(function($) {
             tinymce.get('edit_created_tabs').setContent($(tab_content_value).text());
 
         };
+
         // console.log(parse_id);
     });
 

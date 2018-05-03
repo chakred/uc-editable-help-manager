@@ -219,11 +219,9 @@ function show_editable_tabs(){
 
 //    var_dump(wp_cache_get($cache_key_tab, $group_tb).'<br>');
 //    var_dump(wp_cache_get($cache_key_sidebar, $group_sb));
-
 //    global $wp_object_cache;
 //    var_export( $wp_object_cache );
-//    global $cache_key_tab;
-//    print_r($cache_key_tab);
+
 
     foreach (wp_cache_get($cache_key_tab, $group_tb) as $value) {
 
