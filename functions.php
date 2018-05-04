@@ -196,22 +196,30 @@ function show_editable_tabs(){
 
     if(is_super_admin( $user_ID )){
         if(!$tabs = wp_cache_get($cache_key_tab, $group_tb)){
-            $tabs = $wpdb->get_results("SELECT * FROM $table_tabs_name WHERE screen_id = '$define_screen_id'");
+            $tabs = $wpdb->get_results(
+                $wpdb->prepare("SELECT * FROM $table_tabs_name WHERE screen_id = %s", $define_screen_id)
+            );
             wp_cache_set($cache_key_tab, $tabs, $group_tb );
             }
         if(!$sidebars = wp_cache_get($cache_key_sidebar, $group_sb)){
-            $sidebars = $wpdb->get_results("SELECT * FROM $table_sidebar_name WHERE screen_id = '$define_screen_id'");
+            $sidebars = $wpdb->get_results(
+                $wpdb->prepare("SELECT * FROM $table_sidebar_name WHERE screen_id = %s", $define_screen_id)
+            );
             wp_cache_set($cache_key_sidebar,  $sidebars, $group_sb );
         }
         $control_buttons = '<br><div class="tab-help-buttons delete"><a href ="#" class="button delete_current_tab">Delete</a></div><div class="tab-help-buttons"><a href ="#" class="button button-primary edit_current_tab">Edit</a></div>';
     }else{
         if(!$tabs = wp_cache_get($cache_key_tab, $group_tb)){
-            $tabs = $wpdb->get_results("SELECT * FROM $table_tabs_name WHERE screen_id = '$define_screen_id' AND tab_status = 'publish'");
+            $tabs = $wpdb->get_results(
+                $wpdb->prepare("SELECT * FROM $table_tabs_name WHERE screen_id = %s AND tab_status = %s", $define_screen_id, 'publish')
+            );
 
             wp_cache_set($cache_key_tab, $tabs, $group_tb );
             }
         if(!$sidebars = wp_cache_get($cache_key_sidebar, $group_sb)){
-            $sidebars = $wpdb->get_results("SELECT * FROM $table_sidebar_name WHERE screen_id = '$define_screen_id' AND tab_status = 'publish'");
+            $sidebars = $wpdb->get_results(
+                $wpdb->prepare("SELECT * FROM $table_sidebar_name WHERE screen_id = %s AND tab_status = %s", $define_screen_id, 'publish')
+            );
             wp_cache_set($cache_key_sidebar, $sidebars, $group_sb );
         }
         $control_buttons = "";
