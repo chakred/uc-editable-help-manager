@@ -111,6 +111,8 @@
 	display: block;
 	font-weight: 600;
 	outline: none !important;
+	overflow: hidden;
+	word-wrap: break-word;
 }
 .hm-window .tabs > li > a, .hm-window .tabs > a:focus{
 	outline: none !important;
@@ -273,4 +275,8 @@
 }
 .contextual-help-sidebar{
 	overflow: hidden !important;
+}
+.contextual-help-tabs li{
+	overflow: hidden;
+	word-wrap: break-word;
 }
