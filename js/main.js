@@ -19,11 +19,23 @@ jQuery(document).ready(function($) {
         $(".show-tab-name").text("New tab");
         $('#window-modal-wrap').fadeIn();
         $('.window-modal-bg').fadeIn();
+
+        $(".contextual-help-sidebar p").each(function () {
+            text_sidebar += $(this).html()+"<br>";
+        });
+
+        tinymce.get('create_sidebar').setContent(text_sidebar);
     });
     $('.edit_current_tab').on("click", function () {
         $('#window-edit-modal-wrap').fadeIn();
         $('.window-edit-modal-bg').fadeIn();
         $('.hm-tabs-wrap ul .tab1-1').trigger("click");
+
+        $(".contextual-help-sidebar p").each(function () {
+            text_sidebar += $(this).html()+"<br>";
+        });
+
+        tinymce.get('edit_created_sidebar').setContent(text_sidebar);
 
     });
     $('.close-window-modal').on("click", function () {
@@ -31,7 +43,7 @@ jQuery(document).ready(function($) {
         $('#window-edit-modal-wrap').fadeOut();
         $('.window-modal-bg').fadeOut();
         $('.window-edit-modal-bg').fadeOut();
-        text_sidebar = ""
+        text_sidebar = "";
     });
     $('.cansel-tab').on("click", function (e) {
         e.preventDefault();
@@ -39,7 +51,7 @@ jQuery(document).ready(function($) {
         $('#window-edit-modal-wrap').fadeOut();
         $('.window-modal-bg').fadeOut();
         $('.window-edit-modal-bg').fadeOut();
-        text_sidebar = ""
+        text_sidebar = "";
     });
 
 
@@ -50,11 +62,9 @@ jQuery(document).ready(function($) {
         $('.hm-tabs-wrap ul li').eq(1).trigger("click");
         $(".show-tab-name").text("Create a new tab");
 
-
-
-       $(".contextual-help-sidebar p").each(function () {
+        $(".contextual-help-sidebar p").each(function () {
            text_sidebar += $(this).html()+"<br>";
-       });
+        });
 
         tinymce.get('create_sidebar').setContent(text_sidebar);
     });
@@ -62,12 +72,6 @@ jQuery(document).ready(function($) {
 
 
 // =======      Control of tubs - in modal window      =======
-//   $('ul.tabs__caption').on('click', 'li:not(.active)', function() {
-//         $(this)
-//       .addClass('active').siblings().removeClass('active')
-//       .closest('div.tabs').find('div.tabs__content').removeClass('active').eq($(this).index()).addClass('active');
-//   });
-
   $('.tab-content').hide();
   $('.tab-content:first').show();
   $('.tabs li:first').addClass('active');

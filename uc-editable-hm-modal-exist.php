@@ -54,7 +54,7 @@ function tabs_editing_window(){
                             wp_editor('', 'edit_created_sidebar', array(
                                 'wpautop'       => 1,
                                 'media_buttons' => 0,
-                                'textarea_name' => 'sidebar_content',
+                                'textarea_name' => 'edit_created_sidebar',
                                 'textarea_rows' => 20,
                                 'tabindex'      => null,
                                 'editor_css'    => '',

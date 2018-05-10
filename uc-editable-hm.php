@@ -11,6 +11,7 @@ require __DIR__.'/uc-editable-hm-modal-exist.php';
 
 
 register_activation_hook(__FILE__, 'create_table_db');
+register_deactivation_hook (__FILE__, 'remove_cache_rows_db');
 register_uninstall_hook(__FILE__, 'remove_table_db');
 
 function init_role() {
@@ -91,7 +92,11 @@ function remove_table_db(){
     $sql_sidebar = "DROP TABLE IF EXISTS $table_sidebar_name";
     $wpdb->query($sql_sidebar);
 
+
 };
 
-
+function remove_cache_rows_db(){
+    global $wpdb;
+    $wpdb->query($wpdb->prepare("DELETE FROM $wpdb->options WHERE option_name LIKE %s OR option_name LIKE %s" , $wpdb->esc_like('object_sidebar_cache'). '%', $wpdb->esc_like('object_tab_cache'). '%'));
+};
 
