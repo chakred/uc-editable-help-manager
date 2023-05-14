@@ -2,8 +2,10 @@
 
 namespace uConnect\HelpManager\EditTabs;
 
+/**
+ * Tab editing  markup
+ */
 function tabs_editing_window(){
-
     echo '<div class="window-edit-modal-bg">
 	<div id="window-edit-modal-wrap">
 		<button type="button" class="close-window-modal">
@@ -80,7 +82,6 @@ function tabs_editing_window(){
         </div>
     </div>
 </div>';
-
 }
 
 ;?>

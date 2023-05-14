@@ -2,8 +2,10 @@
 
 namespace uConnect\HelpManager\AddTabs;
 
+/**
+ * Tab creating window markup
+ */
 function tabs_creating_window(){
-
 	echo '<div class="window-modal-bg">
 	<div id="window-modal-wrap">
 		<button type="button" class="close-window-modal">
